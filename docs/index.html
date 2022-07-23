@@ -119,41 +119,19 @@
       
       <div class="blah w-100">
         <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="/posts/hugo_in_action/jamstack/" class="color-inherit dim link">
-            Jamstack
-            </a>
-        </h1>
-        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          jam 含义 m: Markup j: Javascript a: APIs 结合例图来看, Hugo 用 M 和 A (其实是 js, 这里表示应用逻辑) 生成静态文件, 通过 CDN 分发到 Client 后, 可以通过 js 生成动态内容甚至是访问 由云提供商开放的 API.
-这个 stack 使得用户的维护工作变得很少.
-        </div>
-          <a href="/posts/hugo_in_action/jamstack/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-        
-      </div>
-    </div>
-  </div>
-</article>
-
-          </div>
-        
-          <div class="relative w-100 mb4">
-            
-<article class="bb b--black-10">
-  <div class="db pv4 ph3 ph0-l no-underline dark-gray">
-    <div class="flex flex-column flex-row-ns">
-      
-      <div class="blah w-100">
-        <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="/posts/hugo_in_action/study_hugo/" class="color-inherit dim link">
+          <a href="/posts/study_hugo/" class="color-inherit dim link">
             Study Hugo
             </a>
         </h1>
         <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          
-_index.md 和 index.md 的区别 _index.md: branch bundle, 该会展示该目录下的资源 index.md: leaf bundle, 只展示该 index.md Front Matter 就是在 md 文件开头, 用于描述元信息的数据, 可以是 yaml, json 等
-参考 --- title: &#34;Study Hugo&#34; date: 2022-07-21T22:14:25+08:00 draft: false --- 
+          _index.md 和 index.md 的区别 参考
+_index.md: branch bundle, 该会展示该目录下的资源 index.md: leaf bundle, 只展示该 index.md Front Matter 就是在 md 文件开头, 用于描述元信息的数据, 可以是 yaml, json 等
+参考
+--- title: &#34;Study Hugo&#34; date: 2022-07-21T22:14:25+08:00 draft: false --- jam 含义 m: Markup, 注意区分 markdown j: Javascript a: APIs 结合例图来看, Hugo 用 M 和 A (其实是 js, 这里表示应用逻辑) 生成静态文件, 通过 CDN 分发到 Client 后, 可以通过 js 生成动态内容甚至是访问 由云提供商开放的 API.
+这个 stack 使得用户的维护工作变得很少.
+目录结构 archetypes 存放模板 content 存放数据 data 存储结构化数据 layouts 覆盖 theme 的一部分来自定义主题 themes 渲染 content 中的内容的样式文件 config Hugo 支持多配置文件, 这时需要组织到一个目录中 static 建议将内容放到 content, data, themes, layouts 目录中, 而不是 static e.
         </div>
-          <a href="/posts/hugo_in_action/study_hugo/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+          <a href="/posts/study_hugo/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
         
       </div>
     </div>

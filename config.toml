@@ -1,5 +1,0 @@
-baseURL = 'https://jdxj.github.io/'
-languageCode = 'en-us'
-title = '绝顶相机'
-theme = "ananke"
-publishdir = 'docs'
