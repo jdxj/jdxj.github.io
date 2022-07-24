@@ -6,6 +6,14 @@ draft: false
 
 ![](./images/wallhaven-j3g7yy.jpeg)
 
+# 常用命令
+
+关闭缓存
+
+```shell
+$ hugo server -DEF --noHTTPCache --disableFastRender
+```
+
 # _index.md 和 index.md 的区别
 
 [参考](https://gohugo.io/content-management/page-bundles/)
@@ -61,3 +69,9 @@ draft: false
 - node_modules, package.json, package-lock.json, package.hugo.json Hugo 和 JS 的集成所用到的文件
 - .github, netlify.toml Hugo 持续集成服务所需文件
 - api 存放自定义 API
+
+# assets 和 static 的区别
+
+- assets 存放一些需要 Hugo 处理的文件 (Hugo Pipes)
+- static 存放不需要 Hugo 处理的文件
+

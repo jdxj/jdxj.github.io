@@ -1,0 +1,9 @@
+{
+  "name": "绝顶相机",
+  "short_name": "绝顶相机",
+  "start_url": "/",
+  "scope": "/",
+  "theme_color": "#4f46e5",
+  "background_color": "#4f46e5",
+  "display": "standalone"
+}
