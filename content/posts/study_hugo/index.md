@@ -75,3 +75,18 @@ draft: false
 - assets 存放一些需要 Hugo 处理的文件 (Hugo Pipes)
 - static 存放不需要 Hugo 处理的文件
 
+# Markdown
+
+![](./images/figure3.1-1.png)
+![](./images/figure3.1-2.png)
+
+- [原始 Markdown 的扩展](https://commonmark.org/ "test tooltip")
+- [GFM](https://github.github.com/gfm/) 在扩展之上的 Markdown 变体
+
+Hugo 支持 `.md` `.markdown` 扩展名.
+
+## 语法
+
+![](./images/figure3.3.png)
+![](./images/figure3.5.png)
+![](./images/figure3.7.png)
