@@ -2,7 +2,12 @@ baseURL: "https://jdxj.github.io/"
 languageCode: "en-us"
 title: "绝顶相机"
 theme: "eclectic"
+enableEmoji: true
 publishdir: "docs"
+
+markup:
+  highlight:
+    lineNos: true
 
 author:
   name: "jdxj"

@@ -2,7 +2,27 @@
 title: "Study Hugo"
 date: 2022-07-21T22:14:25+08:00
 draft: false
+
+content:
+
+- type: carousel
+  title: Test Carousel
+  items:
+    - title: Circle
+      content: A plane curve everywhere equidistant from a given fixed point, the center.
+    - title: Squares
+      content: A plane figure having four equal sides.
+    - title: Triangle
+      content: "The plane figure formed by connecting three points not in a straight line by straight line segments; a
+      three-sided polygon."
+    - title: Line
+      content:  A geometric figure formed by a point moving along a fixed direction and the reverse direction.
+    - title: Rectangle
+      content: "A quadrilateral plane figure having all its angles right angles and its opposite sides consequently
+      equal."
+
 ---
+
 
 ![](./images/wallhaven-j3g7yy.jpeg)
 
@@ -43,8 +63,8 @@ draft: false
 - j: Javascript
 - a: APIs
 
-结合例图来看, Hugo 用 M 和 A (其实是 js, 这里表示应用逻辑) 生成静态文件, 通过 CDN 分发到 Client 后, 可以通过 js 生成动态内容甚至是访问
-由云提供商开放的 API.
+结合例图来看, Hugo 用 M 和 A (其实是 js, 这里表示应用逻辑) 生成静态文件, 通过 CDN 分发到 Client 后, 可以通过 js
+生成动态内容甚至是访问由云提供商开放的 API.
 
 这个 stack 使得用户的维护工作变得很少.
 
@@ -59,11 +79,11 @@ draft: false
 - themes 渲染 content 中的内容的样式文件
 - config Hugo 支持多配置文件, 这时需要组织到一个目录中
 - static 建议将内容放到 content, data, themes, layouts 目录中, 而不是 static
-  - e.g. 二进制文件, 用于下载的文件
+    - e.g. 二进制文件, 用于下载的文件
 - assets img, js, css
 - public Hugo 编译结果输出目录
 - resources 相当于缓存目录, 提高编译速度
-  - 书中建议版本化该目录, 但是我认为没必要
+    - 书中建议版本化该目录, 但是我认为没必要
 - go.mod, go.sum Hugo Modules 需要这些文件来管理依赖
 - vendor Hugo Modules 用到的第三方依赖
 - node_modules, package.json, package-lock.json, package.hugo.json Hugo 和 JS 的集成所用到的文件
@@ -87,6 +107,40 @@ Hugo 支持 `.md` `.markdown` 扩展名.
 
 ## 语法
 
+启用内联 HTML
+
+```yaml
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+```
+
+启用行号
+
+```yaml
+markup:
+  highlight:
+    lineNos: true
+```
+
+启用 emoji
+
+- [emoji名字](https://www.unicode.org/emoji/charts/emoji-list.html)
+
+```yaml
+# config.yaml
+enableEmoji: true
+```
+
+使用 emoji
+
+```
+:smile:
+```
+
 ![](./images/figure3.3.png)
 ![](./images/figure3.5.png)
 ![](./images/figure3.7.png)
+![](./images/figure3.8.png)
+![](./images/figure3.9.png)
