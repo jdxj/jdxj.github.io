@@ -1,0 +1,15 @@
+color: "#4f46e5"
+copyright: "Copyright &copy; 2022 jdxj. All Rights Reserved."
+footer:
+  - title: About
+    content: >
+      Hello World!.
+  - title: Recent Blog Posts
+    recents: blog
+    recentCount: 3
+  - title: Important Links
+    menu: true
+style: blue
+logo: /image/logo.png
+recent_posts:
+  enable: true

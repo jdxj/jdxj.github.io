@@ -144,3 +144,24 @@ enableEmoji: true
 ![](./images/figure3.7.png)
 ![](./images/figure3.8.png)
 ![](./images/figure3.9.png)
+
+# 内容管理
+
+![](./images/figure4.1.png)
+
+## 配置管理
+
+如果只用一个配置文件, 那么不能区分开发/生产环境.
+
+## Sections
+
+section 对应 url 路径的一节, 比如 `https://example.org/blog/community/welcome` 中包含 blog, community.
+不仅 welcome 可访问, blog 也有 index page 来展示 blog 下的内容的列表.
+
+`content` 目录就是根 section, 可以用 `_index.md` 实现 homepage, 如果使用了主题, 那么在 `_index.md` 中使用
+front matter 是不生效的.
+- 只有 content section 的 `_index.md` 是可选的
+
+如果想展示目录中的内容, 必须在该目录下创建一个名为 `_index.md` 的空文件, 使该目录成为 section, Hugo 不会自动把目录
+变为 section.
+
