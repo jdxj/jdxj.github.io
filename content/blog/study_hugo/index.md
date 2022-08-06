@@ -2,6 +2,9 @@
 title: "Study Hugo"
 date: 2022-07-21T22:14:25+08:00
 draft: false
+tags: [hello, world]
+categories: [abc, def]
+zhys: [hugo]
 
 content:
 
@@ -24,7 +27,7 @@ content:
 ---
 
 
-![](./images/wallhaven-j3g7yy.jpeg)
+![](images/wallhaven-j3g7yy.jpeg)
 
 # 常用命令
 
@@ -57,7 +60,7 @@ draft: false
 
 # jam 含义
 
-![dd](./images/figure1.4.png)
+![dd](images/figure1.4.png)
 
 - m: Markup, 注意区分 markdown
 - j: Javascript
@@ -70,7 +73,7 @@ draft: false
 
 # 目录结构
 
-![](./images/figure2.3.png)
+![](images/figure2.3.png)
 
 - archetypes 存放模板
 - content 存放数据
@@ -97,8 +100,8 @@ draft: false
 
 # Markdown
 
-![](./images/figure3.1-1.png)
-![](./images/figure3.1-2.png)
+![](images/figure3.1-1.png)
+![](images/figure3.1-2.png)
 
 - [原始 Markdown 的扩展](https://commonmark.org/ "test tooltip")
 - [GFM](https://github.github.com/gfm/) 在扩展之上的 Markdown 变体
@@ -139,15 +142,15 @@ enableEmoji: true
 :smile:
 ```
 
-![](./images/figure3.3.png)
-![](./images/figure3.5.png)
-![](./images/figure3.7.png)
-![](./images/figure3.8.png)
-![](./images/figure3.9.png)
+![](images/figure3.3.png)
+![](images/figure3.5.png)
+![](images/figure3.7.png)
+![](images/figure3.8.png)
+![](images/figure3.9.png)
 
 # 内容管理
 
-![](./images/figure4.1.png)
+![](images/figure4.1.png)
 
 ## 配置管理
 
@@ -165,3 +168,24 @@ front matter 是不生效的.
 如果想展示目录中的内容, 必须在该目录下创建一个名为 `_index.md` 的空文件, 使该目录成为 section, Hugo 不会自动把目录
 变为 section.
 
+## 图片应该放到哪里
+
+- 如果是与 page 相关的, 应该放到与其相关的 page bundle 中
+- assets 中的图片会被 HUgo 处理和优化
+- static 中的图片用于原样返回
+
+放在 assets 或 static 中的图片可以被重用来节省带宽或存储
+
+## Branch 和 Leaf 的区别
+
+![](images/table4.1.png)
+
+## Headless hundles
+
+是 leaf bundle 中 front matter 的一个配置字段 `headless: true`
+
+- 不会被渲染
+
+## Taxonomies
+
+![](images/figure4.7.png)
