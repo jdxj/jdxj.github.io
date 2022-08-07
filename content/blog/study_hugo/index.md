@@ -189,3 +189,81 @@ front matter 是不生效的.
 ## Taxonomies
 
 ![](images/figure4.7.png)
+
+## Shortcodes
+
+shortcodes 是一个小模板, 相当于编程语言中的函数.
+
+使用例子
+{{< youtube qBIxl_6tFfo >}}
+
+另一种插入代码的方式
+{{< highlight js "linenos=table,hl_lines=3-4,linenostart=1080" >}}
+if (!tired()) {
+    keepCoding();
+}
+else {
+    drinkCoffee();
+}
+{{</ highlight >}}
+
+嵌入的 shortcodes
+
+{{< highlight html "linenos=table,hl_lines=3-4,linenostart=1080" >}}
+{{</* youtube qBIxl_6tFfo */>}}
+    {{< youtube qBIxl_6tFfo >}}
+{{</ highlight >}}
+
+内建 shortcodes
+- gist: GitHub gist
+- ref: 引用 Hugo 站点内的文件的绝对连接
+- relref: 引用 Hugo 站点内的文件的相对连接
+- figure: 使图片带有标题
+- tweet: 显示一条 tweet
+- instagram: 嵌入一个 instagram 图片
+- vimeo: Vimeo video
+- youtube
+- highlight: syntax highlighting
+- param: debug 用
+
+### HTML shortcodes
+
+{{<divider>}}
+使用 divider
+{{<divider>}}
+
+### Markup-based shortcodes
+
+{{%productInfo%}}
+
+### Inline shortcodes
+
+因为有安全问题, 所以该特性默认关闭 `enableInlineShortcodes: false`
+
+定义 inline
+{{< myInline.inline >}}
+- hah my inline
+{{< /myInline.inline >}}
+
+以 markup 解析
+{{% myInline.inline /%}}
+
+以 html 解析
+{{< myInline.inline />}}
+
+# 分离数据和界面
+
+## Go template language
+
+在 Go template 中可以通过变量访问内容
+- `$`: 模板上下文
+  - `$.Title`
+  - `$.Description`
+  - `$.Page.Title`
+- `site`: 访问 config.yaml 中的配置
+  - `site.Pages`
+  - `site.Taxonomies`
+  - `site.Params`
+- `hugo`: 访问 Hugo compiler
+  - `hugo.IsProduction`
+
