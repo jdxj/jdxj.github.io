@@ -267,3 +267,65 @@ else {
 - `hugo`: 访问 Hugo compiler
   - `hugo.IsProduction`
 
+### if 语句
+
+```html
+{{if $.Description}}
+abc
+{{end}
+
+{{if $.Title}}
+    <title>{{$.Title}}</title>
+{{else if site.Title}}
+    <title>{{site.Title}}</title>
+{{end}}
+```
+
+### 变量
+
+```html
+{{$title := $.Title}}
+
+{{if not $title}}
+{{$title = site.Title}}
+{{end}}
+```
+
+### 使用 Hugo 库函数
+
+带有默认值的声明
+```html
+{{$title:= default site.Title $.Title}}
+
+可以使用括号
+{{$title:= (default site.Title $.Title)}}
+
+检查变量是否定义
+{{if isset $.Params "subtitle"}}<h2>{{$.Params.subtitle}}</h2>{{end}}
+```
+
+`$.Param` 函数(注意没有`s`), 当所访问的页变量不存在时, 使用站点变量
+
+```html
+{{$.Param "subtitle"}}
+```
+
+开头字母大写
+```html
+{{with .Param "subtitle"}}<h2>{{humanize .}}</h2>{{end}}
+```
+
+### 上下文变量 `.`
+
+```html
+{{with $title}}<title>{{.}}</title>{{end}}
+```
+
+在 with 中使用 `$` 可访问顶级变量
+
+### 管道
+
+- markdownify: 将内容解释为 markdown
+```html
+{{with .Param "subtitle"}}<h2>{{. | humanize | markdownify}}</h2>{{end}}
+```
