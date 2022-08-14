@@ -315,6 +315,11 @@ abc
 {{with .Param "subtitle"}}<h2>{{humanize .}}</h2>{{end}}
 ```
 
+where 函数
+- 参数: slice, key, value
+
+![](images/figure5.7.png)
+
 ### 上下文变量 `.`
 
 ```html
@@ -329,3 +334,6 @@ abc
 ```html
 {{with .Param "subtitle"}}<h2>{{. | humanize | markdownify}}</h2>{{end}}
 ```
+
+## 使用外部数据
+
