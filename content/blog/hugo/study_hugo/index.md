@@ -335,5 +335,27 @@ where 函数
 {{with .Param "subtitle"}}<h2>{{. | humanize | markdownify}}</h2>{{end}}
 ```
 
-## 使用外部数据
+## 使用结构化数据
 
+Hugo 支持解析
+- csv
+- json
+- yaml
+
+data文件夹中的数据可以通过 `site.Data` 变量访问. 或者使用 `readFile` 获取原始文本, 然后使用
+`transform.Unmarshal` 将数据转换为 dictionary.
+
+Page bundles 中的资源可用通过 `$.Page.Resources.Get` 获取.
+
+测试 `price` shortcode
+
+{{< price "Circle" >}}  
+{{< price product="Square" >}}
+
+### Archetypes
+
+相当于 post 模板, 能够创建目录结构, 填充 front matter, 占位图片.
+`hugo new <filename>` 会根据模板创建所需内容.
+
+还可以在 `archetypes` 中创建 page bundles 模板
+`hugo new blog/line --kind blog`
