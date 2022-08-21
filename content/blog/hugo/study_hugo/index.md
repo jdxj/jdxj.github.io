@@ -359,3 +359,30 @@ Page bundles 中的资源可用通过 `$.Page.Resources.Get` 获取.
 
 还可以在 `archetypes` 中创建 page bundles 模板
 `hugo new blog/line --kind blog`
+
+# 结构化 Pages
+
+## context type
+
+context type 类似 theme, 但是不渲染全部网站, 只用于渲染 section 或 page.
+- context type 是 templates 的集合
+- theme 是 content types 的集合
+- layouts 中的 index.html 可以覆盖默认的 index template
+- Hugo 支持覆盖任何 theme template (layouts 覆盖对应 theme/layouts 路径中的文件)
+
+## base template
+
+`baseof.html` 定义了渲染框架
+
+四种布局
+
+- list layout: 渲染 branch bundle
+- single layout: 渲染 leaf bundle
+- index layout: 渲染 homepage, 如果不存在则使用 list layout
+- 404 layout: 渲染所有的错误页
+  - 可以自定义其他错误码
+  - 由于使用了 Jamstack, 5xx错误是不需要的
+
+使用的原理是 baseof.html + 某种布局
+
+- 如果某种布局使用了 `define` 并且覆盖了 baseof.html 中的 `block`, 那么将替换默认 block

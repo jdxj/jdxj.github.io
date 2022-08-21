@@ -3,6 +3,7 @@ title: jdxj's Blog hah
 description: Hello World!
 subtitle: but **haha** lolo
 explore: blog
+type: modern
 
 testimonials:
 
