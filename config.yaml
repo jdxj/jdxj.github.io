@@ -1,0 +1,4 @@
+baseURL: 'https://jdxj.github.io'
+title: 'jdxj'
+theme: "PaperMod"
+publishdir: "docs"
