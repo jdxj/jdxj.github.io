@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>jdxj</title>
-    <link>https://jdxj.github.io/</link>
-    <description>Recent content on jdxj</description>
+    <title>Curls on jdxj</title>
+    <link>https://jdxj.github.io/curl/</link>
+    <description>Recent content in Curls on jdxj</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 06 Dec 2022 10:28:45 +0800</lastBuildDate><atom:link href="https://jdxj.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 06 Dec 2022 10:28:45 +0800</lastBuildDate><atom:link href="https://jdxj.github.io/curl/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>manpage</title>
       <link>https://jdxj.github.io/curl/man/</link>
@@ -17,19 +17,6 @@
 -H &amp;#34;Host:&amp;#34; 发送不带值的自定义 header, 必须以 ; 结尾
 -H &amp;#34;X-Custom-Header;&amp;#34; 使用 @filename 可以在文件中读取 header
 // todo 例子 -b, --cookie &amp;lt;data|filename&amp;gt; 在命令行中所指定的 cookie 的格式</description>
-    </item>
-    
-    <item>
-      <title>Test</title>
-      <link>https://jdxj.github.io/golang/test/</link>
-      <pubDate>Mon, 05 Dec 2022 12:35:49 +0800</pubDate>
-      
-      <guid>https://jdxj.github.io/golang/test/</guid>
-      <description>abc ffff
-123 ddd
-def oooo
-456 faf
-package main import ( &amp;#34;fmt&amp;#34; ) func main() { fmt.Println(&amp;#34;abc&amp;#34;) } </description>
     </item>
     
   </channel>
