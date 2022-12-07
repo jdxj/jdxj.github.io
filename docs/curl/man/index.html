@@ -111,7 +111,7 @@
     
   ],
   "articleBody": "Options -K, --config 在文件中指定 curl 的参数\n选项和其参数可以用 空格, :, = 分隔 如果选项前有 - 或 --, 则可以省略 :, = 长选项可省略 -- 参数中包含空格 (或者以 :, = 开头), 则需要用引号包围 -x, --proxy [protocol://]host[:port] -A, --user-agent -A \"\", 请求中将不会有该 header -A \" \", 有该 header, 但是值为空白 -H, --header 清除某个 header\n-H \"Host:\" 发送不带值的自定义 header, 必须以 ; 结尾\n-H \"X-Custom-Header;\" 使用 @filename 可以在文件中读取 header\n// todo 例子 -b, --cookie 在命令行中所指定的 cookie 的格式\n\"NAME1=VALUE1; NAME2=VALUE2\" 从文件中读取\n文件的 cookie 格式应该是 Netscape/Mozilla cookie file format curl -b cookiefile https://example.com 从文件中读取 cookie 并写回\ncurl -b cookiefile -c cookiefile https://example.com -c, --cookie-jar 存储 cookie\n-L, --location 跟随重定向\n-d, --data 发送 application/x-www-form-urlencoded 数据\ncurl -d \"name=curl\" -d \"tool=cmdline\" https://example.com curl -d @filename https://example.com --data-binary 发送 application/x-www-form-urlencoded 数据\n-F, --form ",
-  "wordCount" : "194",
+  "wordCount" : "215",
   "inLanguage": "en",
   "datePublished": "2022-12-06T10:28:45+08:00",
   "dateModified": "2022-12-06T10:28:45+08:00",
@@ -182,7 +182,7 @@
     <h1 class="post-title">
       manpage
     </h1>
-    <div class="post-meta"><span title='2022-12-06 10:28:45 +0800 CST'>December 6, 2022</span>&nbsp;·&nbsp;194 words
+    <div class="post-meta"><span title='2022-12-06 10:28:45 +0800 CST'>December 6, 2022</span>&nbsp;·&nbsp;215 words
 
 </div>
   </header> <div class="toc">
@@ -226,7 +226,11 @@
                 <li>
                     <a href="#-k---insecure" aria-label="-k, --insecure"><code>-k, --insecure</code></a></li>
                 <li>
-                    <a href="#-w---write-out-format" aria-label="-w, --write-out &amp;lt;format&amp;gt;"><code>-w, --write-out &lt;format&gt;</code></a></li></ul>
+                    <a href="#-w---write-out-format" aria-label="-w, --write-out &amp;lt;format&amp;gt;"><code>-w, --write-out &lt;format&gt;</code></a></li>
+                <li>
+                    <a href="#-d---dump-header-filename" aria-label="-D, --dump-header &amp;lt;filename&amp;gt;"><code>-D, --dump-header &lt;filename&gt;</code></a></li>
+                <li>
+                    <a href="#--json-data" aria-label="--json &amp;lt;data&amp;gt;"><code>--json &lt;data&gt;</code></a></li></ul>
                 </li>
                 <li>
                     <a href="#files" aria-label="Files">Files</a><ul>
@@ -308,6 +312,11 @@
 <h2 id="-k---insecure"><code>-k, --insecure</code><a hidden class="anchor" aria-hidden="true" href="#-k---insecure">#</a></h2>
 <p>跳过证书检查</p>
 <h2 id="-w---write-out-format"><code>-w, --write-out &lt;format&gt;</code><a hidden class="anchor" aria-hidden="true" href="#-w---write-out-format">#</a></h2>
+<h2 id="-d---dump-header-filename"><code>-D, --dump-header &lt;filename&gt;</code><a hidden class="anchor" aria-hidden="true" href="#-d---dump-header-filename">#</a></h2>
+<p>保存 header 到文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>curl --json <span style="color:#e6db74">&#39;{ &#34;drink&#34;:&#39;</span> --json <span style="color:#e6db74">&#39; &#34;coffe&#34; }&#39;</span> https://example.com
+</span></span><span style="display:flex;"><span>curl --json @prepared https://example.com
+</span></span></code></pre></div><h2 id="--json-data"><code>--json &lt;data&gt;</code><a hidden class="anchor" aria-hidden="true" href="#--json-data">#</a></h2>
 <h1 id="files">Files<a hidden class="anchor" aria-hidden="true" href="#files">#</a></h1>
 <h2 id="curlrc"><code>~/.curlrc</code><a hidden class="anchor" aria-hidden="true" href="#curlrc">#</a></h2>
 <h1 id="environment">Environment<a hidden class="anchor" aria-hidden="true" href="#environment">#</a></h1>

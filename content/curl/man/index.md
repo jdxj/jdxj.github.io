@@ -143,6 +143,17 @@ curl --referer "https://fake.example;auto" -L https://example.com
 
 
 
+## `-D, --dump-header <filename>`
+
+保存 header 到文件
+```shell
+curl --json '{ "drink":' --json ' "coffe" }' https://example.com
+curl --json @prepared https://example.com
+```
+
+
+## `--json <data>`
+
 
 # Files
 
