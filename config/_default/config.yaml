@@ -1,13 +1,9 @@
 baseURL: 'https://jdxj.github.io'
 title: 'jdxj'
 theme: "PaperMod"
-publishdir: "docs"
-
-params:
-  ShowPostNavLinks: true
-  ShowCodeCopyButtons: true
-  ShowBreadCrumbs: true
-  ShowWordCount: true
-  ShowRssButtonInSectionTermList: true
-  showtoc: true
-  tocopen: true
+publishDir: "docs"
+buildDrafts: true
+enableEmoji: true
+enableGitInfo: true
+hasCJKLanguage: true
+watch: true
