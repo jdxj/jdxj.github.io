@@ -7,3 +7,4 @@ enableEmoji: true
 enableGitInfo: true
 hasCJKLanguage: true
 watch: true
+pluralizeListTitles: false
