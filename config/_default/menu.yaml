@@ -1,2 +1,3 @@
-foot:
-  - post: d2
+main:
+  - post: Archive
+    url: /post

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>testff on jdxj</title>
-    <link>https://jdxj.github.io/</link>
-    <description>Recent content in testff on jdxj</description>
+    <title>第一部分 构建你的盈利体系 on jdxj</title>
+    <link>https://jdxj.github.io/post/%E9%95%BF%E6%9C%9F%E7%9A%84%E5%8A%9B%E9%87%8F-%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E5%8F%AF%E6%8C%81%E7%BB%AD%E7%9A%84%E4%BB%B7%E5%80%BC%E6%8A%95%E8%B5%84%E7%9B%88%E5%88%A9%E4%BD%93%E7%B3%BB/%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86-%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84%E7%9B%88%E5%88%A9%E4%BD%93%E7%B3%BB/</link>
+    <description>Recent content in 第一部分 构建你的盈利体系 on jdxj</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 06 Dec 2022 10:28:45 +0800</lastBuildDate><atom:link href="https://jdxj.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 12 Dec 2022 21:03:41 +0800</lastBuildDate><atom:link href="https://jdxj.github.io/post/%E9%95%BF%E6%9C%9F%E7%9A%84%E5%8A%9B%E9%87%8F-%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E5%8F%AF%E6%8C%81%E7%BB%AD%E7%9A%84%E4%BB%B7%E5%80%BC%E6%8A%95%E8%B5%84%E7%9B%88%E5%88%A9%E4%BD%93%E7%B3%BB/%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86-%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84%E7%9B%88%E5%88%A9%E4%BD%93%E7%B3%BB/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>第二章 我们需要构建什么样的盈利体系</title>
       <link>https://jdxj.github.io/post/%E9%95%BF%E6%9C%9F%E7%9A%84%E5%8A%9B%E9%87%8F-%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E5%8F%AF%E6%8C%81%E7%BB%AD%E7%9A%84%E4%BB%B7%E5%80%BC%E6%8A%95%E8%B5%84%E7%9B%88%E5%88%A9%E4%BD%93%E7%B3%BB/%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86-%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84%E7%9B%88%E5%88%A9%E4%BD%93%E7%B3%BB/%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E6%88%91%E4%BB%AC%E9%9C%80%E8%A6%81%E6%9E%84%E5%BB%BA%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%E7%9B%88%E5%88%A9%E4%BD%93%E7%B3%BB/</link>
@@ -22,42 +22,6 @@
       
       <guid>https://jdxj.github.io/post/%E9%95%BF%E6%9C%9F%E7%9A%84%E5%8A%9B%E9%87%8F-%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E5%8F%AF%E6%8C%81%E7%BB%AD%E7%9A%84%E4%BB%B7%E5%80%BC%E6%8A%95%E8%B5%84%E7%9B%88%E5%88%A9%E4%BD%93%E7%B3%BB/%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86-%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84%E7%9B%88%E5%88%A9%E4%BD%93%E7%B3%BB/%E7%AC%AC%E4%B8%80%E7%AB%A0-%E7%9B%88%E5%88%A9%E4%BD%93%E7%B3%BB%E4%B8%BA%E4%BB%80%E4%B9%88%E9%87%8D%E8%A6%81/</guid>
       <description>股票投资看似简单却很复杂 股票投资难，在于股票投资是一个概率游戏，正确决策（过程）未必带来好的结果，错误决策（过程）有时候会让你赚钱。也就是说</description>
-    </item>
-    
-    <item>
-      <title>Chapter15 The InnoDB Storage Engine</title>
-      <link>https://jdxj.github.io/post/mysql/document/chapter15-the-innodb-storage-engine/</link>
-      <pubDate>Thu, 08 Dec 2022 15:50:12 +0800</pubDate>
-      
-      <guid>https://jdxj.github.io/post/mysql/document/chapter15-the-innodb-storage-engine/</guid>
-      <description>15.1 Introduction to InnoDB 15.1.2 Best Practices for InnoDB Tables 使用索引 关闭自动提交 (写速度限制) 15.1.3 Verifying that InnoDB is the Default Storage Engine DEFAULT 字样 1 2 SHOW ENGINES; SELECT * FROM INFORMATION_SCHEMA.ENGINES; 15.2 InnoDB and the ACID Model A: atomicity. C: consistency. I: isolation. D: durability. 15.3 InnoDB Multi-Versioning InnoDB 在每行记录</description>
-    </item>
-    
-    <item>
-      <title>cheat1</title>
-      <link>https://jdxj.github.io/post/mysql/cheat/cheat01/</link>
-      <pubDate>Thu, 08 Dec 2022 15:50:12 +0800</pubDate>
-      
-      <guid>https://jdxj.github.io/post/mysql/cheat/cheat01/</guid>
-      <description>fff</description>
-    </item>
-    
-    <item>
-      <title>aaa</title>
-      <link>https://jdxj.github.io/post/golang/test1/</link>
-      <pubDate>Tue, 06 Dec 2022 10:28:45 +0800</pubDate>
-      
-      <guid>https://jdxj.github.io/post/golang/test1/</guid>
-      <description>bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb</description>
-    </item>
-    
-    <item>
-      <title>manpage</title>
-      <link>https://jdxj.github.io/post/linux/curl/manpage/</link>
-      <pubDate>Tue, 06 Dec 2022 10:28:45 +0800</pubDate>
-      
-      <guid>https://jdxj.github.io/post/linux/curl/manpage/</guid>
-      <description>Options -K, --config &amp;lt;file&amp;gt; 在文件中指定 curl 的参数 选项和其参数可以用 空格, :, = 分隔 如果选项前有 - 或 --, 则可以省略 :, = 长选项可省略 -- 参数中包含空格 (或者以 :, = 开头),</description>
     </item>
     
   </channel>
