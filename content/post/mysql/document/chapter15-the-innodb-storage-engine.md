@@ -80,3 +80,7 @@ record lock 和索引记录之前的 gap lock 组合
 AUTO_INCREMENT 列
 
 #### Predicate Locks for Spatial Indexes
+
+### 15.7.5 Deadlocks in InnoDB
+
+隔离级别不影响死锁的可能性, 因为隔离级别负责读操作, 然而死锁发生在写操作
