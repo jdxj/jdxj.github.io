@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>MySQL是怎样运行的: 从根儿上理解MySQL on jdxj</title>
+    <link>https://jdxj.github.io/post/mysql%E6%98%AF%E6%80%8E%E6%A0%B7%E8%BF%90%E8%A1%8C%E7%9A%84-%E4%BB%8E%E6%A0%B9%E5%84%BF%E4%B8%8A%E7%90%86%E8%A7%A3mysql/</link>
+    <description>Recent content in MySQL是怎样运行的: 从根儿上理解MySQL on jdxj</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sat, 17 Dec 2022 11:56:13 +0800</lastBuildDate><atom:link href="https://jdxj.github.io/post/mysql%E6%98%AF%E6%80%8E%E6%A0%B7%E8%BF%90%E8%A1%8C%E7%9A%84-%E4%BB%8E%E6%A0%B9%E5%84%BF%E4%B8%8A%E7%90%86%E8%A7%A3mysql/index.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>
