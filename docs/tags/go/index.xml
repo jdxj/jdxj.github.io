@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Article on jdxj</title>
-    <link>https://jdxj.github.io/post/collection/article/</link>
-    <description>Recent content in Article on jdxj</description>
+    <title>go on jdxj</title>
+    <link>https://jdxj.github.io/tags/go/</link>
+    <description>Recent content in go on jdxj</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 20 Dec 2022 10:15:21 +0800</lastBuildDate><atom:link href="https://jdxj.github.io/post/collection/article/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 20 Dec 2022 14:18:18 +0800</lastBuildDate><atom:link href="https://jdxj.github.io/tags/go/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>聊一个 string 和 []byte 转换问题</title>
       <link>https://jdxj.github.io/post/collection/article/%E8%81%8A%E4%B8%80%E4%B8%AAstring%E5%92%8Cbyte%E8%BD%AC%E6%8D%A2%E9%97%AE%E9%A2%98/</link>
@@ -16,12 +16,12 @@
     </item>
     
     <item>
-      <title>Designing Go Libraries</title>
-      <link>https://jdxj.github.io/post/collection/article/designing-go-libraries/</link>
-      <pubDate>Tue, 20 Dec 2022 10:17:23 +0800</pubDate>
+      <title>火丁笔记</title>
+      <link>https://jdxj.github.io/post/collection/site/huoding.com/</link>
+      <pubDate>Tue, 20 Dec 2022 13:59:57 +0800</pubDate>
       
-      <guid>https://jdxj.github.io/post/collection/article/designing-go-libraries/</guid>
-      <description>原文</description>
+      <guid>https://jdxj.github.io/post/collection/site/huoding.com/</guid>
+      <description>火丁笔记</description>
     </item>
     
   </channel>
