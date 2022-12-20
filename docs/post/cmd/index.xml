@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Cmd on jdxj</title>
+    <link>https://jdxj.github.io/post/cmd/</link>
+    <description>Recent content in Cmd on jdxj</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Fri, 16 Dec 2022 16:22:53 +0800</lastBuildDate><atom:link href="https://jdxj.github.io/post/cmd/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>curl</title>
+      <link>https://jdxj.github.io/post/cmd/curl/</link>
+      <pubDate>Tue, 06 Dec 2022 10:28:45 +0800</pubDate>
+      
+      <guid>https://jdxj.github.io/post/cmd/curl/</guid>
+      <description>Options -K, --config &amp;lt;file&amp;gt; 在文件中指定 curl 的参数 选项和其参数可以用 空格, :, = 分隔 如果选项前有 - 或 --, 则可以省略 :, = 长选项可省略 -- 参数中包含空格 (或者以 :, = 开头),</description>
+    </item>
+    
+  </channel>
+</rss>
