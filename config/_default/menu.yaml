@@ -1,3 +1,7 @@
 main:
-  - post: Archive
-    url: /post
+  - identifier: tags
+    url: /tags
+    name: Tags
+  - identifier: archives
+    name: Archives
+    url: /posts

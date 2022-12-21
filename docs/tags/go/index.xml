@@ -8,19 +8,19 @@
     <lastBuildDate>Tue, 20 Dec 2022 14:18:18 +0800</lastBuildDate><atom:link href="https://jdxj.github.io/tags/go/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>聊一个 string 和 []byte 转换问题</title>
-      <link>https://jdxj.github.io/post/collection/article/%E8%81%8A%E4%B8%80%E4%B8%AAstring%E5%92%8Cbyte%E8%BD%AC%E6%8D%A2%E9%97%AE%E9%A2%98/</link>
+      <link>https://jdxj.github.io/posts/collections/articles/%E8%81%8A%E4%B8%80%E4%B8%AAstring%E5%92%8Cbyte%E8%BD%AC%E6%8D%A2%E9%97%AE%E9%A2%98/</link>
       <pubDate>Tue, 20 Dec 2022 14:18:18 +0800</pubDate>
       
-      <guid>https://jdxj.github.io/post/collection/article/%E8%81%8A%E4%B8%80%E4%B8%AAstring%E5%92%8Cbyte%E8%BD%AC%E6%8D%A2%E9%97%AE%E9%A2%98/</guid>
+      <guid>https://jdxj.github.io/posts/collections/articles/%E8%81%8A%E4%B8%80%E4%B8%AAstring%E5%92%8Cbyte%E8%BD%AC%E6%8D%A2%E9%97%AE%E9%A2%98/</guid>
       <description>原文 错误的使用 uintptr, 转换结果可能被 GC.</description>
     </item>
     
     <item>
       <title>火丁笔记</title>
-      <link>https://jdxj.github.io/post/collection/site/huoding.com/</link>
+      <link>https://jdxj.github.io/posts/collections/sites/huoding.com/</link>
       <pubDate>Tue, 20 Dec 2022 13:59:57 +0800</pubDate>
       
-      <guid>https://jdxj.github.io/post/collection/site/huoding.com/</guid>
+      <guid>https://jdxj.github.io/posts/collections/sites/huoding.com/</guid>
       <description>火丁笔记</description>
     </item>
     
