@@ -15,14 +15,5 @@
       <description>原文 错误的使用 uintptr, 转换结果可能被 GC.</description>
     </item>
     
-    <item>
-      <title>火丁笔记</title>
-      <link>https://jdxj.github.io/posts/collections/sites/huoding.com/</link>
-      <pubDate>Tue, 20 Dec 2022 13:59:57 +0800</pubDate>
-      
-      <guid>https://jdxj.github.io/posts/collections/sites/huoding.com/</guid>
-      <description>火丁笔记</description>
-    </item>
-    
   </channel>
 </rss>
