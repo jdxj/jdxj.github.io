@@ -9,3 +9,4 @@ hasCJKLanguage: true
 watch: true
 pluralizeListTitles: false
 googleAnalytics: G-FBE4H074FW
+cleanDestinationDir: true
