@@ -33,14 +33,5 @@
       <description>原文 错误的使用 uintptr, 转换结果可能被 GC.</description>
     </item>
     
-    <item>
-      <title>Designing Go Libraries</title>
-      <link>https://jdxj.github.io/posts/collections/articles/designing-go-libraries/</link>
-      <pubDate>Tue, 20 Dec 2022 10:17:23 +0800</pubDate>
-      
-      <guid>https://jdxj.github.io/posts/collections/articles/designing-go-libraries/</guid>
-      <description>原文</description>
-    </item>
-    
   </channel>
 </rss>
