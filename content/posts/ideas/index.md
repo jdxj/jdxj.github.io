@@ -7,3 +7,5 @@ draft: true
 - Redis
 - MySQL
 - RabbitMQ
+- Git
+- Root
