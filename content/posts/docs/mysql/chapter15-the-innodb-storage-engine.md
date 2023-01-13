@@ -1,7 +1,7 @@
 ---
 title: "Chapter15 The InnoDB Storage Engine"
 date: 2022-12-08T15:50:12+08:00
-draft: true
+draft: false
 tocopen: false
 ---
 
