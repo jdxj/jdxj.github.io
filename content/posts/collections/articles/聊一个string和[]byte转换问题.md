@@ -6,6 +6,6 @@ tags:
   - go
 ---
 
-[原文](https://huoding.com/2021/10/14/964)
+错误的使用uintptr转换结果可能被 GC.
 
-错误的使用 uintptr, 转换结果可能被 GC.
+[原文](https://huoding.com/2021/10/14/964)

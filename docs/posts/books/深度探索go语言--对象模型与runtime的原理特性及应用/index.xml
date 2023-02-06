@@ -7,6 +7,15 @@
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Sat, 04 Feb 2023 10:32:18 +0800</lastBuildDate><atom:link href="https://jdxj.github.io/posts/books/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2go%E8%AF%AD%E8%A8%80--%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%E4%B8%8Eruntime%E7%9A%84%E5%8E%9F%E7%90%86%E7%89%B9%E6%80%A7%E5%8F%8A%E5%BA%94%E7%94%A8/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>第2章 指针</title>
+      <link>https://jdxj.github.io/posts/books/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2go%E8%AF%AD%E8%A8%80--%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%E4%B8%8Eruntime%E7%9A%84%E5%8E%9F%E7%90%86%E7%89%B9%E6%80%A7%E5%8F%8A%E5%BA%94%E7%94%A8/%E7%AC%AC2%E7%AB%A0-%E6%8C%87%E9%92%88/</link>
+      <pubDate>Sun, 05 Feb 2023 13:55:47 +0800</pubDate>
+      
+      <guid>https://jdxj.github.io/posts/books/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2go%E8%AF%AD%E8%A8%80--%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%E4%B8%8Eruntime%E7%9A%84%E5%8E%9F%E7%90%86%E7%89%B9%E6%80%A7%E5%8F%8A%E5%BA%94%E7%94%A8/%E7%AC%AC2%E7%AB%A0-%E6%8C%87%E9%92%88/</guid>
+      <description>2.1 指针构成 1 var p *int 无论指针的元素类型是什么，指针变量本身的格式都是一致的，即一个无符号整型，变量大小能够容纳当前平台的地址。例如在386架构</description>
+    </item>
+    
+    <item>
       <title>第1章 汇编基础</title>
       <link>https://jdxj.github.io/posts/books/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2go%E8%AF%AD%E8%A8%80--%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%E4%B8%8Eruntime%E7%9A%84%E5%8E%9F%E7%90%86%E7%89%B9%E6%80%A7%E5%8F%8A%E5%BA%94%E7%94%A8/%E7%AC%AC1%E7%AB%A0-%E6%B1%87%E7%BC%96%E5%9F%BA%E7%A1%80/</link>
       <pubDate>Sat, 04 Feb 2023 10:37:02 +0800</pubDate>
