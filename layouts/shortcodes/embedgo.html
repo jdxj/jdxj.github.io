@@ -1,0 +1,5 @@
+{{ $prefix := .Page.File.Dir }}
+{{ $file := .Get 0 }}
+{{ $path := path.Join $prefix $file }}
+{{ $input := os.ReadFile $path }}
+{{ transform.Highlight $input "go" }}
