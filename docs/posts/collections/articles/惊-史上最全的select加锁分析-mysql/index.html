@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>惊! 史上最全的select加锁分析(Mysql) | jdxj</title>
-<meta name="keywords" content="mysql">
+<meta name="keywords" content="mysql, lock">
 <meta name="description" content="该文章展示了事务隔离级别与锁的关系, 推荐阅读 RC/RU&#43;条件列非索引 RC/RU&#43;条件列是聚簇索引 RC/RU&#43;条件列是非聚簇索引 RR/Seri">
 <meta name="author" content="">
 <link rel="canonical" href="https://jdxj.github.io/posts/collections/articles/%E6%83%8A-%E5%8F%B2%E4%B8%8A%E6%9C%80%E5%85%A8%E7%9A%84select%E5%8A%A0%E9%94%81%E5%88%86%E6%9E%90-mysql/">
@@ -119,7 +119,7 @@ if (!doNotTrack) {
   "name": "惊! 史上最全的select加锁分析(Mysql)",
   "description": "该文章展示了事务隔离级别与锁的关系, 推荐阅读 RC/RU+条件列非索引 RC/RU+条件列是聚簇索引 RC/RU+条件列是非聚簇索引 RR/Seri",
   "keywords": [
-    "mysql"
+    "mysql", "lock"
   ],
   "articleBody": "该文章展示了事务隔离级别与锁的关系, 推荐阅读\nRC/RU+条件列非索引 RC/RU+条件列是聚簇索引 RC/RU+条件列是非聚簇索引 RR/Serializable+条件列非索引 RR/Serializable+条件列是聚簇索引 RR/Serializable+条件列是非聚簇索引 原文\n",
   "wordCount" : "136",
@@ -225,8 +225,14 @@ if (!doNotTrack) {
   <footer class="post-footer">
     <ul class="post-tags">
       <li><a href="https://jdxj.github.io/tags/mysql/">mysql</a></li>
+      <li><a href="https://jdxj.github.io/tags/lock/">lock</a></li>
     </ul>
 <nav class="paginav">
+  <a class="prev" href="https://jdxj.github.io/posts/collections/articles/%E8%B6%85%E5%85%A8%E9%9D%A2-mysql%E8%AF%AD%E5%8F%A5%E5%8A%A0%E9%94%81%E5%88%86%E6%9E%90/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>超全面 MySQL语句加锁分析</span>
+  </a>
   <a class="next" href="https://jdxj.github.io/posts/books/%E5%90%B4%E5%8A%B2%E8%8D%89%E8%AE%B2%E6%B6%88%E8%B4%B9%E8%A1%8C%E4%B8%9A-%E5%8F%91%E7%8E%B0%E7%94%9F%E6%B4%BB%E4%B8%AD%E7%9A%84%E9%95%BF%E7%BA%BF%E5%A4%A7%E7%89%9B%E8%82%A1/%E7%AC%AC2%E7%AB%A0-%E6%B6%88%E8%B4%B9%E5%93%81%E6%8A%95%E8%B5%84%E5%BF%83%E6%B3%95/">
     <span class="title">Next »</span>
     <br>
@@ -237,7 +243,7 @@ if (!doNotTrack) {
 
 <div class="share-buttons">
     <a target="_blank" rel="noopener noreferrer" aria-label="share 惊! 史上最全的select加锁分析(Mysql) on twitter"
-        href="https://twitter.com/intent/tweet/?text=%e6%83%8a%21%20%e5%8f%b2%e4%b8%8a%e6%9c%80%e5%85%a8%e7%9a%84select%e5%8a%a0%e9%94%81%e5%88%86%e6%9e%90%28Mysql%29&amp;url=https%3a%2f%2fjdxj.github.io%2fposts%2fcollections%2farticles%2f%25E6%2583%258A-%25E5%258F%25B2%25E4%25B8%258A%25E6%259C%2580%25E5%2585%25A8%25E7%259A%2584select%25E5%258A%25A0%25E9%2594%2581%25E5%2588%2586%25E6%259E%2590-mysql%2f&amp;hashtags=mysql">
+        href="https://twitter.com/intent/tweet/?text=%e6%83%8a%21%20%e5%8f%b2%e4%b8%8a%e6%9c%80%e5%85%a8%e7%9a%84select%e5%8a%a0%e9%94%81%e5%88%86%e6%9e%90%28Mysql%29&amp;url=https%3a%2f%2fjdxj.github.io%2fposts%2fcollections%2farticles%2f%25E6%2583%258A-%25E5%258F%25B2%25E4%25B8%258A%25E6%259C%2580%25E5%2585%25A8%25E7%259A%2584select%25E5%258A%25A0%25E9%2594%2581%25E5%2588%2586%25E6%259E%2590-mysql%2f&amp;hashtags=mysql%2clock">
         <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
             <path
                 d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-253.927,424.544c135.939,0 210.268,-112.643 210.268,-210.268c0,-3.218 0,-6.437 -0.153,-9.502c14.406,-10.421 26.973,-23.448 36.935,-38.314c-13.18,5.824 -27.433,9.809 -42.452,11.648c15.326,-9.196 26.973,-23.602 32.49,-40.92c-14.252,8.429 -30.038,14.56 -46.896,17.931c-13.487,-14.406 -32.644,-23.295 -53.946,-23.295c-40.767,0 -73.87,33.104 -73.87,73.87c0,5.824 0.613,11.494 1.992,16.858c-61.456,-3.065 -115.862,-32.49 -152.337,-77.241c-6.284,10.881 -9.962,23.601 -9.962,37.088c0,25.594 13.027,48.276 32.95,61.456c-12.107,-0.307 -23.448,-3.678 -33.41,-9.196l0,0.92c0,35.862 25.441,65.594 59.311,72.49c-6.13,1.686 -12.72,2.606 -19.464,2.606c-4.751,0 -9.348,-0.46 -13.946,-1.38c9.349,29.426 36.628,50.728 68.965,51.341c-25.287,19.771 -57.164,31.571 -91.8,31.571c-5.977,0 -11.801,-0.306 -17.625,-1.073c32.337,21.15 71.264,33.41 112.95,33.41Z" />
