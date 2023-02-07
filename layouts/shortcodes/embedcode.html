@@ -1,5 +1,6 @@
+{{ $lang := .Get 0 }}
+{{ $file := .Get 1 }}
 {{ $prefix := .Page.File.Dir }}
-{{ $file := .Get 0 }}
 {{ $path := path.Join $prefix $file }}
 {{ $input := os.ReadFile $path }}
-{{ transform.Highlight $input "go" }}
+{{ transform.Highlight $input $lang }}
