@@ -44,7 +44,7 @@ Go语言通过逃逸分析机制避免返回局部变量地址所引发的问题
 
 ![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P37_4942.jpg)
 
-### 2.2.2 解引用
+### 2.2.2 解引用 {#dereference}
 
 1. 空指针异常
 
