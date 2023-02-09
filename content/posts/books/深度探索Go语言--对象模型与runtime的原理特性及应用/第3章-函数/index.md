@@ -221,3 +221,136 @@ func Add(a, b int)
 
 ### 3.2.2 不逃逸分析
 
+验证new()函数与堆分配是否有必然关系
+
+```go
+// 第3章 code_3_11.go
+//go:noinline
+func New() int {
+	p := new(int)
+	return *p
+}
+```
+
+反编译New()函数
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P61_5650.jpg)
+
+MOVQ指令直接把返回值赋值为0，其他的逻辑全都被优化掉了，所以即便是代码中使用了new()函数，只要变量的生命周期没有超过当前函数栈帧的生命周期，
+编译器就不会进行堆分配。
+
+### 3.2.3 不逃逸判断
+
+如果把局部变量的地址赋值给包级别的指针变量，应该也会造成变量逃逸
+
+```go
+// 第3章 code_3_12.go
+var pt *int
+
+//go:noinline
+func setNew() {
+	var a int
+	pt = &a
+}
+```
+
+反编译setNew()函数
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P62_5672.jpg)
+
+验证逃逸分析的依赖传递性
+
+```go
+var pp **int
+
+//go:noinline
+func dep() {
+	var a int
+	var p *int
+	p = &a
+	pp = &p
+}
+```
+
+反编译dep()函数
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P62_5689.jpg)
+
+跨包测试
+
+```go
+// 第3章 code_3_14.go
+package inner
+
+//go:noinline
+func RetAry(p *int) *int {
+	return p
+}
+
+// 第3章 code_3_15.go
+package main
+
+//go:noinline
+func arg() int {
+    var a int
+	return *inner.RetAry(&a)
+}
+```
+
+反编译
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P63_5724.jpg)
+
+阻止编译器参考函数实现的测试
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P64_5741.jpg)
+
+反编译arg()函数
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P64_5749.jpg)
+
+- 变量a依旧是栈分配，变量b已经逃逸了。
+- 在上述代码中的retArg()函数只是个函数声明，没有给出具体实现，通过linkname机制让链接器在链接阶段链接到inner.RetArg()函数。
+- retArg()函数只有声明没有实现，而且编译器不会跟踪linkname，所以无法根据代码逻辑判定变量b到底有没有逃逸。
+
+## 3.3 Function Value
+
+### 3.3.1 函数指针
+
+函数指针存储的也是地址, 该地址指向代码段中某个函数的第一条指令
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P65_5768.jpg)
+
+### 3.3.2 Function Value分析
+
+{{< embedcode go "code_3_18/main.go" >}}
+
+反编译
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P67_5870.jpg)
+
+1. 4～7行和最后两行用于栈增长，暂不需要关心。
+2. 第8～10行分配栈帧并赋值caller’s BP，RET之前的两行还原BP寄存器并释放栈帧。
+3. CALL后面的两行用来复制返回值。
+4. CALL连同之前的6条MOVQ指令，实现了Function Value的传参和过程调用。
+   1. MOVQ 0x30(SP)，AX和MOVQ AX，0(SP)用于把helper()函数的第2个参数a的值复制给fn()函数的第1个参数。
+   2. MOVQ 0x38(SP)，AX和MOVQ AX，0x8(SP)同理，把helper()函数第3个参数b的值复制给fn()函数的第2个参数。
+   3. MOVQ 0x28(SP)，DX把helper()函数第1个参数fn的值复制到DX寄存器，MOVQ 0(DX)，AX把DX用作基址，加上位移0，也就是从DX存储的地址处读
+      取出一个64位的值，存入了AX寄存器中。
+   4. CALL AX说明，上一步中AX寄存器最终存储的是实际函数的地址。
+
+栈分析
+
+```
+40(SP) return value -|
+38(SP) b             | stack of main
+30(SP) a             |
+28(SP) fn           -|
+20(SP) return addr
+18(SP) bp           -|
+10(SP) return value  | stack of helper
+ 8(SP) b             |
+ 0(SP) a            -|
+```
+
+### 3.3.3 闭包
