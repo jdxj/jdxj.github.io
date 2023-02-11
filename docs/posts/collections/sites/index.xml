@@ -7,7 +7,34 @@
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Tue, 20 Dec 2022 11:05:58 +0800</lastBuildDate><atom:link href="https://jdxj.github.io/posts/collections/sites/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Dave.cheney.net</title>
+      <title>Win.d</title>
+      <link>https://jdxj.github.io/posts/collections/sites/www.wind.com.cn/</link>
+      <pubDate>Sat, 11 Feb 2023 17:06:34 +0800</pubDate>
+      
+      <guid>https://jdxj.github.io/posts/collections/sites/www.wind.com.cn/</guid>
+      <description>主页</description>
+    </item>
+    
+    <item>
+      <title>eMarketer</title>
+      <link>https://jdxj.github.io/posts/collections/sites/www.insiderintelligence.com/</link>
+      <pubDate>Sat, 11 Feb 2023 17:02:23 +0800</pubDate>
+      
+      <guid>https://jdxj.github.io/posts/collections/sites/www.insiderintelligence.com/</guid>
+      <description>主页</description>
+    </item>
+    
+    <item>
+      <title>国家统计局</title>
+      <link>https://jdxj.github.io/posts/collections/sites/www.stats.gov.cn/</link>
+      <pubDate>Sat, 11 Feb 2023 14:37:16 +0800</pubDate>
+      
+      <guid>https://jdxj.github.io/posts/collections/sites/www.stats.gov.cn/</guid>
+      <description>主页</description>
+    </item>
+    
+    <item>
+      <title>Dave Cheney</title>
       <link>https://jdxj.github.io/posts/collections/sites/dave.cheney.net/</link>
       <pubDate>Wed, 28 Dec 2022 10:56:47 +0800</pubDate>
       
@@ -25,12 +52,12 @@
     </item>
     
     <item>
-      <title>Abhinavg.net</title>
+      <title>Abhinav Gupta</title>
       <link>https://jdxj.github.io/posts/collections/sites/abhinavg.net/</link>
       <pubDate>Tue, 20 Dec 2022 11:38:48 +0800</pubDate>
       
       <guid>https://jdxj.github.io/posts/collections/sites/abhinavg.net/</guid>
-      <description>abhinavg.net</description>
+      <description>主页</description>
     </item>
     
   </channel>
