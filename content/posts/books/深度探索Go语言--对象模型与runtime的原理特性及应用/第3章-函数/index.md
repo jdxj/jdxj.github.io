@@ -354,3 +354,168 @@ func arg() int {
 ```
 
 ### 3.3.3 闭包
+
+```go
+// 第3章 code_3_19.go
+func mc(n int) func() int {
+	return func() int {
+		return n
+    }
+}
+```
+
+闭包的状态保存在哪里呢？
+
+1. 闭包对象
+
+反编译
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P69_5896.jpg)
+
+栈分析
+
+```
+...                             |
+28(SP) main arg (mc-func()int)  | stack of main
+20(SP) main arg (mc-n)         -|
+18(SP) return address of mc
+10(SP) bp                      -|
+ 8(SP) newobject ret            | stack of mc
+ 0(SP) newobject arg           -|
+```
+
+推测newobject所创建的对象的结构
+
+```go
+// 闭包对象
+struct {
+	// 闭包函数
+    F uintptr
+	// 捕获列表
+    n int
+}
+```
+
+2. 看到闭包
+
+newobject的原型
+
+```go
+func newobject(typ *_type) unsafe.Pointer
+```
+
+使用自定义的newobject实现来查看_type的布局
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P71_5941.jpg)
+
+运行结果
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P72_5963.jpg)
+
+因为`start++`导致start变量逃逸, 所以调用了两次newobject
+
+- `int`
+- `struct { F uintptr; start *int }`
+
+图3-12 Function Value和闭包对象
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P73_5970.jpg)
+
+3. 调用闭包
+
+闭包函数在被调用的时候，必须得到当前闭包对象的地址才能访问其中的捕获列表，这个地址是如何传递的呢？
+
+{{< embedcode go "code_3_22/main.go" >}}
+
+反编译
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P74_5996.jpg)
+
+- 将DX寄存器用作基址，再加上位移8，把该地址处的值复制到AX寄存器中。
+- 把AX寄存器的值复制给闭包函数的返回值。
+- 闭包函数返回。
+
+> 书中说把AX的值给闭包函数的返回值, 不太理解为啥0x8(SP)是返回值地址.
+
+4. 闭包与变量逃逸
+
+```go
+// 第3章 code_3_23.go
+func sc(n int) int {
+	f := func() int {
+		return n
+    }
+	return f()
+}
+```
+
+禁用内联优化
+
+```shell
+$ go build -gcflags='-l'
+```
+
+反编译
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P75_6022.jpg)
+
+return f()之前的6行汇编代码
+
+- XORPS和MOVUPS这两行利用128位的寄存器X0，把栈帧上从位移8字节开始的16字节清零，这段区间就是sc()函数的局部变量区，正好符合捕获了一个int变
+  量的闭包对象大小。
+- LEAQ和MOVQ把闭包函数的地址复制到栈帧上位移8字节处，正是闭包对象中的函数指针。
+- 接下来的两个MOVQ把sc()函数的参数n的值复制到栈帧上位移16字节处，也就是闭包捕获列表中的int变量。
+
+图3-13 sc()函数中构造的闭包对象f
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P76_6028.jpg)
+
+return之后的5行汇编代码
+
+- MOVQ把闭包函数的地址复制到AX寄存器中，LEAQ把闭包对象的地址存储到DX寄存器中。
+- CALL指令调用闭包函数，接下来的两条MOVQ把闭包函数的返回值复制到sc()函数的返回值。
+
+图3-14 调用闭包函数f()
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P76_6032.jpg)
+
+闭包对象的捕获列表，捕获的是变量的值还是地址？
+
+- 只有在变量的值不会再改变的前提下，才可以复制变量的值，否则就会出现不一致错误。
+
+示例, 需要禁用内联优化
+
+```go
+// 第3章 code_3_24.go
+// 捕获地址
+func sc(n int) int {
+	f := func() int {
+        n++
+        return n
+    }
+    return f()
+}
+
+// 第3章 code_3_25.go
+// 捕获值
+func sc(n int) int {
+	n++
+	f := func() int {
+		return n
+    }
+	return f()
+}
+
+// 第3章 code_3_26.go
+// 捕获地址
+func sc(n int) int {
+    f := func() int {
+        return n
+    }
+    n++
+    return f()
+}
+```
+
+## 3.4 defer
+
