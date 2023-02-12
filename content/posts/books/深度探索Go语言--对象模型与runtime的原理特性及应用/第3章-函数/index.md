@@ -42,7 +42,7 @@ draft: true
   间来分配。当没有调用任何函数时，不需要分配该区间。callee视角的args from caller区间包含在caller视角的args to callee区间内，占用空间
   大小是小于或等于的关系。
 
-{{< embedcode go "code_3_1/main.go" >}}
+{{< embedcode go "code/3_1/main.go" >}}
 
 实际上，代码中的println()函数会被编译器转换为多次调用runtime包中的printlock()、printunlock()、printpointer()、printsp()、
 printnl()等函数。前两个函数用来进行并发同步，后3个函数用来打印指针、空格和换行。这5个函数均无返回值，
@@ -74,7 +74,7 @@ printnl()等函数。前两个函数用来进行并发同步，后3个函数用�
 如果把图3-6中整个函数栈帧视为一个struct，SP存储着这个struct的起始地址，然后就可以通过基址＋位移的方式来寻址struct的各个字段，也就是栈帧上
 的局部变量、参数和返回值。
 
-{{< embedcode go "code_3_3/main.go" >}}
+{{< embedcode go "code/3_3/main.go" >}}
 
 ![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P51_5394.jpg)
 
@@ -107,7 +107,7 @@ struct和一个参数struct。因为内存对齐方式更加紧凑，所以在�
 
 栈帧上的参数和返回值到底是分开后作为两个struct，还是按照一个struct来对齐的？
 
-{{< embedcode go "code_3_5/main.go" >}}
+{{< embedcode go "code/3_5/main.go" >}}
 
 ![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P53_5449.jpg)
 
@@ -116,7 +116,7 @@ struct和一个参数struct。因为内存对齐方式更加紧凑，所以在�
 
 局部变量的对齐
 
-{{< embedcode go "code_3_6/main.go" >}}
+{{< embedcode go "code/3_6/main.go" >}}
 
 ![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P54_5467.jpg)
 
@@ -207,7 +207,7 @@ func Add(a, b int)
 
 ### 3.2.1 什么是逃逸分析
 
-{{< embedcode go "code_3_10/main.go" >}}
+{{< embedcode go "code/3_10/main.go" >}}
 
 如果局部变量a仍分配在栈中, 那么返回的地址会变成一个[悬挂指针]({{< ref "posts/books/深度探索Go语言--对象模型与runtime的原理特性及应用/第2章-指针/index.md#dereference" >}})
 
@@ -323,7 +323,7 @@ func arg() int {
 
 ### 3.3.2 Function Value分析
 
-{{< embedcode go "code_3_18/main.go" >}}
+{{< embedcode go "code/3_18/main.go" >}}
 
 反编译
 
@@ -425,7 +425,7 @@ func newobject(typ *_type) unsafe.Pointer
 
 闭包函数在被调用的时候，必须得到当前闭包对象的地址才能访问其中的捕获列表，这个地址是如何传递的呢？
 
-{{< embedcode go "code_3_22/main.go" >}}
+{{< embedcode go "code/3_22/main.go" >}}
 
 反编译
 
@@ -519,3 +519,222 @@ func sc(n int) int {
 
 ## 3.4 defer
 
+### 3.4.1 最初的链表
+
+使用go1.12
+
+{{< embedcode go "code/3_28/main.go" >}}
+
+反编译df()
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P79_6112.jpg)
+
+#### deferproc
+
+- Go语言中，每个goroutine都有自己的一个defer链表，而runtime.deferproc()函数做的事情就是把defer函数及其参数添加到链表中。
+- 编译器还会在当前函数结尾处插入调用runtime.deferreturn()函数的代码，该函数会按照FILO的顺序调用当前函数注册的所有defer函数。
+- 如果当前goroutine发生了panic（宕机），或者调用了runtime.Goexit()函数，runtime的panic处理逻辑会按照FILO的顺序遍历当前goroutine的整
+  个defer链表，并逐一调用defer函数，直到某个defer函数执行了recover，或者所有defer函数执行完毕后程序结束运行。
+
+runtime.deferproc()函数原型
+
+```go
+func deferproc(size int32, fun *funcval)
+```
+
+- Go语言用两级指针结构统一了函数指针和闭包，这个funcval结构就是用来支持两级指针的。
+- funcval结构中只定义了uintptr
+
+图3-15 funcval对Function Value两级指针的支持
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P81_6139.jpg)
+
+- 参数siz表示defer函数的参数占用空间的大小，这部分参数也是通过栈传递的，虽然没有出现在deferproc()函数的参数列表里，但实际上会被编译器追加
+  到fn的后面
+- 注意defer函数的参数在栈上的fn后面，而不是在funcval结构的后面。这点不符合正常的Go语言函数调用约定，属于编译器的特殊处理。
+
+图3-16 df()函数调用deferproc时的栈帧
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P81_6142.jpg)
+
+基于第3章/code_3_28.go反编译得到的汇编代码，整理出等价的伪代码如下：
+
+```go
+func df(n int) (v int) {
+	r := runtime.deferproc(8, df.func1, &n)
+	if r > 0 {
+		goto ret
+	}
+	v = n
+	runtime.deferreturn()
+	return
+ret:
+	runtime.deferreturn()
+	return
+}
+
+func df.func1(i *int) {
+	*i *= 2
+}
+```
+
+deferproc()函数的返回值为0或非0时代表不同的含义
+
+- 0代表正常流程，也就是已经把需要延迟执行的函数注册到了链表中，这种情况下程序可正常执行后续逻辑。
+- 返回值为1则表示发生了panic，并且当前defer函数执行了recover，这种情况会跳过当前函数后续的代码，直接执行返回逻辑。
+
+deferproc()函数的具体实现, 摘抄自runtime包的panic.go
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P82_6165.jpg)
+
+通过getcallersp()函数获取调用者的SP，也就是调用deferproc()函数之前SP寄存器的值。这个值有两个用途
+
+- 一是在deferreturn()函数执行defer函数时用来判断该defer是不是被当前函数注册的
+- 二是在执行recover的时候用来还原栈指针。
+
+基于unsafe指针运算得到编译器追加在fn之后的参数列表的起始地址，存储在argp中。
+
+通过getcallerpc()函数获取调用者指令指针的位置，在amd64上实际就是deferproc()函数的返回地址，从调用者df()函数的视角来看就是CALL
+runtime.deferproc后面的那条指令的地址。这个地址主要用来在执行recover的时候还原指令指针。
+
+调用newdefer()函数分配一个runtime._defer结构，newdefer()函数内部使用了两级缓冲池来避免频繁的堆分配，并且会自动把新分配的_defer结构添加
+到链表的头部。
+
+runtime._defer的定义
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P83_6179.jpg)
+
+- siz表示defer参数占用的空间大小，与deferproc()函数的第1个参数一样。
+- started表示有个panic或者runtime.Goexit()函数已经开始执行该defer函数。
+- _panic的值是在当前goroutine发生panic后，runtime在执行defer函数时，将该指针指向当前的_panic结构。
+- link指针用来指向下一个_defer结构，从而形成链表。
+
+_defer中没有发现用来存储defer函数参数的空间，参数应该被存储到哪里？
+
+实际上runtime.newdefer()函数用了和编译器一样的手段，在分配_defer结构的时候，后面额外追加了siz大小的空间，如图3-17所示，所以deferproc()
+函数接下来会将fn、callerpc、sp都复制到_defer结构中相应的字段，然后根据siz大小来复制参数，最后通过return0()函数来把返回值0写入AX寄存器中。
+
+图3-17 deferproc执行中为_defer赋值
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P84_6185.jpg)
+
+通过deferproc()函数注册完一个defer函数后，deferproc()函数的返回值是0。后面如果发生了panic，又通过该defer函数成功recover，那么指令指针
+和栈指针就会恢复到这里设置的pc、sp处，看起来就像刚从runtime.deferproc()函数返回，只不过返回值为1，编译器插入的if语句继而会跳过函数体，仅
+执行末尾的deferreturn()函数。
+
+#### deferreturn
+
+在正常情况下，注册过的defer函数是由runtime.deferreturn()函数负责执行的，正常情况指的就是没有panic或runtime.Goexit()函数，即当前函数完
+成执行并正常返回时。
+
+deferreturn()函数的代码如下：
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P84_6192.jpg)
+
+值得注意的是参数arg0的值没有任何含义，实际上编译器并不会传递这个参数，deferreturn()函数内部通过它获取调用者栈帧上args to callee区间的起
+始地址，从而可以将defer函数所需参数复制到该区间。defer函数的参数个数要比编译器传给deferproc()函数的参数还少两个，所以调用者的
+args to callee区间大小肯定足够，不必担心复制参数会覆盖掉栈帧上的其他数据。
+
+deferreturn()函数的主要逻辑如下：
+
+1. 若defer链表为空，则直接返回，否则获得第1个_defer的指针d，但并不从链表中移除。
+2. 判断d.sp是否等于调用者的SP，即判断d是否由当前函数注册，如果不是，则直接返回。
+3. 如果defer函数有参数，d.siz会大于0，就将参数复制到栈上&arg0处。
+4. 将d从defer链表移除，链表头指向d.link，通过runtime.freedefer()函数释放d。和runtime.newdefer()函数对应，runtime.freedefer()函数
+   会把d放回缓冲池中，缓冲池内部按照defer函数参数占用空间的多少分成了5个列表，对于参数太多且占用空间太大的d，超出了缓冲池的处理范围则不会被
+   缓存，后续会被GC回收。
+5. 通过runtime.jmpdefer()函数跳转到defer函数去执行。
+
+runtime.jmpdefer()函数是用汇编语言实现的，amd64平台下的实现代码如下：
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P85_6210.jpg)
+
+第2行把fn赋值给DX寄存器，3.3节中已经讲过Function Value调用时用DX寄存器传递闭包对象地址。接下来的3行代码通过设置SP和BP来还原
+deferreturn()函数的栈帧，结合最后一条指令是跳转到defer函数而不是通过CALL指令来调用，这样从调用栈来看就像是deferreturn()函数的调用者直接
+调用了defer函数。
+
+jmpdefer()函数会调整返回地址，在amd64平台下会将返回地址减5，即一条CALL指令的大小，然后才会跳转到defer函数去执行。这样一来，等到defer函数
+执行完毕返回的时候，刚好会返回编译器插入的runtime.deferreturn()函数调用之前，从而实现无循环、无递归地重复调用deferreturn()函数。直到当
+前函数的所有defer都执行完毕，deferreturn()函数会在第1、第2步判断时返回，不经过jmpdefer()函数调整栈帧和返回地址，从而结束重复调用。
+
+使用deferproc()函数实现defer的好处是通用性比较强，能够适应各种不同的代码逻辑。
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P86_6220.jpg)
+
+因为defer函数的注册是运行阶段才进行的，可以跟代码逻辑很好地整合在一起，所以像if这种条件分支不用完成额外工作就能支持。由于每个
+runtime._defer结构都是基于缓冲池和堆动态分配的，所以即使不定次数的循环也不用额外处理，多次注册互不干扰。
+
+但是链表与堆分配组合的最大缺点就是慢，即使用了两级缓冲池来优化runtime._defer结构的分配，性能方面依然不太乐观，所以在后续的版本中就开始了对
+defer的优化之旅。
+
+### 3.4.2 栈上分配
+
+在1.13版本中对defer做了一点小的优化，即把runtime._defer结构分配到当前函数的栈帧上。很明显这不适用于循环中的defer，循环中的defer仍然需要
+通过deferproc()函数实现，这种优化只适用于只会执行一次的defer。
+
+编译器通过runtime.deferprocStack()函数来执行这类defer的注册，相比于runtime.deferproc()函数，少了通过缓冲池或堆分配_defer结构的步骤，
+性能方面还是稍有提升的。
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P87_16307.jpg)
+
+runtime._defer结构中新增了一个bool型的字段heap来表示是否为堆上分配，对于这种栈上分配的_defer结构，deferreturn()函数就不会用
+freedefer()函数进行释放了。因为编译器在栈帧上已经把_defer结构的某些字段包括后面追加的fn的参数都准备好了，所以deferprocStack()函数这里只
+需为剩余的几个字段赋值，与deferproc()函数的逻辑基本一致。最后几行中通过unsafe.Pointer做类型转换再赋值，源码注释中解释为避免写屏障，暂时理
+解成为提升性能就行了
+
+同样使用第3章/code_3_28.go，经过Go 1.13编译器转换后的伪代码如下：
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P87_6255.jpg)
+
+图3-18 df()函数调用deferprocStack()时的栈帧
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P88_6273.jpg)
+
+栈上分配_defer这种优化只是节省了_defer结构的分配、释放时间，仍然需要将defer函数添加到链表中，在调用的时候也还要复制栈上的参数，整体提升比
+较有限。
+
+### 3.4.3 高效的open coded defer
+
+在Go 1.14版本中又进行了一次优化，这次优化也是针对那些只会执行一次的defer。编译器不再基于链表实现这类defer，而是将这类defer直接展开为代码中
+的函数调用，按照倒序放在函数返回前去执行，这就是所谓的open coded defer。
+
+使用第3章/code_3_28.go，在1.14版本中经编译器转换后的伪代码如下：
+
+```go
+func df(n int) (v int) {
+	v = n
+	func(i *int) {
+		*i *= 2
+    }(&n)
+	return
+}
+```
+
+两个问题：
+
+- 如何支持嵌套在if语句块中的defer？
+- 当发生panic时，如何保证这些defer得以执行呢？
+
+第1个问题其实并不难解决，可以**在栈帧上分配一个变量**，用每个二进制位来记录一个对应的defer函数是否需要被调用。Go语言实际上用了一字节作为标
+志，可以最多支持8个defer，为什么不支持更多呢？笔者是这样理解的，open coded defer本来就是为了提高性能而设计的，一个函数中写太多defer，应该
+是不太在意这种层面上的性能了。
+
+还需要考虑的一个问题是，deferproc()函数在注册的时候会存储defer函数的参数副本，defer函数的参数经常是当前函数的局部变量，即使它们后来被修改
+了，deferproc()函数存储的副本也是不会变的，副本是注册那一时刻的状态，所以在open coded defer中编译器需要在当前函数栈帧上分配额外的空间来存
+储defer函数的参数。
+
+示例
+
+{{< embedcode go "code/3_30/main.go" >}}
+
+经编译器转换后的等价代码如下：
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P90_6312.jpg)
+
+其中局部变量f就是专门用来支持if这类条件逻辑的标志位，局部变量i用作n在defer注册那一刻的副本，函数返回前根据标志位判断是否调用defer函数。
+
+图3-19 fn()函数通过open coded defer的方式调用defer函数
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P90_6329.jpg)
+
+## 3.5 panic
