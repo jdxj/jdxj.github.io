@@ -1,7 +1,8 @@
 ---
 title: "第3章 函数"
 date: 2023-02-06T21:40:56+08:00
-draft: true
+draft: false
+summary: 本章建议最多读到3.4, 到这里已经看不太懂了
 ---
 
 **图3-1 函数调用发生前**
@@ -738,3 +739,197 @@ func df(n int) (v int) {
 ![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P90_6329.jpg)
 
 ## 3.5 panic
+
+### 3.5.1 gopanic()函数
+
+1.12版本的gopanic()函数的源码
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P91_6343.jpg)
+
+从函数原型来看，与内置函数panic()完全一致，有一个interface{}类型的参数，这使gopanic()函数可以接受任意类型的参数。函数首先通过getg()函数
+得到当前goroutine的g对象指针gp，然后会进行一些校验工作，主要目的是确保处在系统栈、内存分配过程中、禁止抢占或持有锁的情况下不允许发生panic。
+接下来gopanic()函数在栈上分配了一个_panic类型的对象p，把参数e赋值给p的arg字段，并把p安放到当前goroutine的_panic链表的头部，特意使用
+noescape()函数来避免p逃逸，因为panic本身就是与栈的状态强相关的。
+
+runtime._panic结构的定义代码如下：
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P92_6364.jpg)
+
+- argp字段用来在defer函数执行阶段指向其args from caller区间的起始地址。
+- arg字段保存的就是传递给gopanic()函数的参数。
+- link字段用来指向链表中的下一个_panic结构。
+- recovered字段表示当前panic已经被某个defer函数通过recover恢复。
+- aborted字段表示发生了嵌套的panic，旧的panic被新的panic流程标记为aborted。
+
+gopanic()中的for循环
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P92_6372.jpg)
+
+- 每次循环开始都会从gp的_defer链表头部取一项赋值给d，直到链表为空时结束循环。
+- 接下来判断若d.started为真则表明当前是一个嵌套的panic，也就是在原有panic或Goexit()函数执行defer函数的时候又触发了panic，因为触发
+  panic的defer函数还没有执行完，所以还没有从链表中移除。这里会把d关联的旧的_panic设置为aborted，然后把d从链表中移除，并通过freedefer()
+  函数释放。
+- 后续的3大块逻辑就是：调用defer函数、释放_defer结构和检测recover。
+
+1. 调用defer函数
+
+调用defer函数的代码如下：
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P93_6390.jpg)
+
+- 首先将d.started设置为true，这样如果defer函数又触发了panic，新的panic遍历defer链表时，就能通过started的值确定该defer函数已经被调用
+  过了，避免重复调用。
+- 然后为d._panic赋值，将d关联到当前panic对象p，并使用noescape()函数避免p逃逸，这一步是为了后续嵌套的panic能够通过d._panic找到上一个
+  panic。
+- 接下来，p.argp被设置为当前gopanic()函数栈帧上args to callee区间的起始地址，recover()函数通过这个值来判断自身是否直接被defer函数调用
+
+reflectcall()函数
+
+```go
+func reflectcall(argtype *_type, fn, arg unsafe.Pointer, argsize uint32, retoffset uint32)
+```
+
+reflectcall()函数的主要逻辑是根据argsize的大小在栈上分配足够的空间，然后把arg处的参数复制到栈上，复制的大小为argsize字节，然后调用fn()
+函数，再把返回值复制回arg＋retoffset处，复制的大小为argsize-retoffset字节，如果argtype不为nil，则根据argtype来应用写屏障。
+
+在编译阶段，编译器无法知道gopanic()函数在运行阶段会调用哪些defer函数，所以也无法预分配足够大的args to callee区间，只能通过
+reflectcall()函数在运行阶段进行栈增长。defer函数的返回值虽然也会被复制回调用者的栈帧上，但是Go语言会将其忽略，所以这里不必应用写屏障。
+
+2. 释放_defer结构
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P94_6409.jpg)
+
+调用完d.fn()函数后，不应该出现gp._defer不等于d这种情况。假如在d.fn()函数执行的过程中没有造成新的panic，那么所有新注册的defer都应该在
+d.fn()函数返回的时候被deferreturn()函数移出链表。假如d.fn()函数执行过程中造成了新的panic，若没有recover，则不会再回到这里，若经
+recover之后再回到这里，则所有在d.fn()函数执行过程中注册的defer也都应该在d.fn()函数返回之前被移出链表。
+
+3. 检测recover
+
+检测recover的代码如下：
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P94_6418.jpg)
+
+如果d.fn()函数成功地执行了recover，则当前_panic对象p的recovered字段就会被设置为true，此处通过检测后就会执行recover逻辑。
+
+首先把p从gp的_panic链表中移除，然后循环移除链表头部所有已经标为aborted的_panic对象。如果没有发生嵌套的panic，则此时gp._panic应该是nil，
+不为nil就表明发生了嵌套的panic，而且只是内层的panic被recover。代码的最后把局部变量sp和pc赋值给gp的sigcode0和sigcode1字段，然后通过
+mcall()函数执行recovery()函数。mcall()函数会切换到系统栈，然后把gp作为参数来调用recovery()函数。
+
+recovery()函数负责用存储在sigcode0和sigcode1中的sp和pc恢复gp的执行状态。recovery()函数的主要逻辑代码如下：
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P95_6436.jpg)
+
+首先确保栈指针sp的值不能为0，并且还要在gp栈空间的上界与下界之间，然后把sp和pc赋值给gp.sched中对应的字段，并且把返回值设置为1。
+
+调用gogo()函数之后，gp的栈指针和指令指针就会被恢复到sp和pc的位置，而这个位置是deferproc()函数通过getcallersp()函数和getcallerpc()函
+数获得的，即deferproc()函数正常返回后的位置，所以经过某个defer函数执行recover()函数后，当前goroutine的栈指针和指令指针会被恢复到deferproc()函数刚刚注册完该defer函数后返回的位置，只不过返回值是1而不是0。
+
+### 3.5.2 gorecover()函数
+
+defer函数中调用了内置函数recover()，实际上只会设置_panic的一种状态。内置函数recover()对应runtime中的gorecover()函数，代码如下：
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P96_6458.jpg)
+
+编译器会把调用者的args from caller区间的起始地址作为参数传递给gorecover()函数。
+
+```go
+// 第3章 code_3_31.go
+func fn() {
+	defer func(a int) {
+		recover()
+		println
+	}(0)
+}
+```
+
+经编译器转换后的等价代码如下：
+
+```go
+func fn() {
+	defer func(a int) {
+		gorecover(uintptr(unsafe.Pointer(&a)))
+	}(0)
+}
+```
+
+图3-20 p.argp和gorecover()函数参数argp的关系
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P97_6480.jpg)
+
+### 3.5.3 嵌套的panic
+
+Go语言的panic是支持嵌套的，第1个panic在执行defer函数的时候可能会注册新的defer函数，也可能会触发新的panic。如果新的panic被新注册的defer
+函数中的recover恢复，则旧的panic就会继续执行，否则新的panic就会把旧的panic置为aborted。
+
+```go
+// 第3章 code_3_32.go
+func fn() {
+	defer func() {
+		panic("2")
+	}()
+	panic("1")
+}
+```
+
+fn()函数首先将一个defer函数注册到当前goroutine的defer链表头部，记为defer1，然后当panic(＂1＂)执行时，会在当前goroutine的_panic链表中
+新增一个_panic结构，记为panic1，panic1触发defer执行，defer1中started字段会被标记为true，_panic字段会指向panic1
+
+图3-21 panic2执行前的_defer链表和_panic链表
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P101_6563.jpg)
+
+然后执行到panic(＂2＂)这里，也会在当前goroutine的_panic链表中新增一项，记为panic2。panic2同样会去执行defer链表，通过defer1记录的
+_panic字段找到panic1，并将其标记为aborted，然后移除defer1，处理defer链表中的后续节点。
+
+图3-22 panic2执行后的_defer链表和_panic链表
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P101_6567.jpg)
+
+在defer函数中嵌套一个带有recover的defer函数
+
+```go
+// 第3章 code_3_35.go
+func fu() {
+	defer func() {
+		defer func() {
+			recover()
+		}()
+		panic("2")
+	}()
+	panic("1")
+}
+```
+
+依然把fn()函数首先注册的defer函数记为defer1，把接下来执行的panic记为panic1，此时goroutine的_defer链表和_panic链表与图3-21中的链表并
+无不同。只不过当panic1触发defer1执行时，会再次注册一个defer函数，记为defer2，然后才会执行到panic(＂2＂)，这里触发第二次panic，在_panic
+链表中新增一项，记为panic2。
+
+图3-23 defer2执行前的_defer链表和_panic链表
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P102_6589.jpg)
+
+然后panic2去执行_defer链表，首先执行defer2，将其started字段置为true，_panic字段指向panic2。待到defer2执行recover()函数时，只会把
+panic2的recovered字段置为true，defer2结束后，从_defer链表中移除
+
+图3-24 defer2结束后的_defer链表和_panic链表
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P103_6596.jpg)
+
+接下来，panic处理逻辑检测到panic2已经被刚刚执行的defer2恢复了，所以会把panic2从_panic链表中移除，如图3-25所示，然后进入recovery()函数
+的逻辑中。
+
+图3-25 panic2恢复后的_defer链表和_panic链表
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P103_6599.jpg)
+
+结合3.5.1节中的recovery()函数的介绍，panic2被recover后，当前协程会恢复到defer1中注册完defer2刚刚返回时的状态，只不过返回值被置为1，直
+接跳转到最后的deferreturn()函数处，而此时defer链表中已经没有defer1注册的defer函数了，所以defer1结束返回，返回panic1执行defer链表的逻
+辑中继续执行。
+
+### 3.5.4 支持open coded defer
+
+1.14版本中runtime._defer结构的定义
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P104_6611.jpg)
+
+## 3.6 本章小结
