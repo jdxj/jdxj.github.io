@@ -1,10 +1,10 @@
 ---
 title: "第4章 方法"
 date: 2023-02-14T20:38:20+08:00
-draft: true
+draft: false
 ---
 
-{{< embedcode go "code/4_1/main.go" >}}
+{{< embedcode go "code/4_1.go" >}}
 
 ## 4.1 接收者类型
 
@@ -191,3 +191,99 @@ func X(p Point) func() float64 {
 个闭包（考虑编译器优化）。
 
 ## 4.3 组合式继承
+
+{{< embedcode go "code/4_2.go" >}}
+
+### 4.3.1 嵌入值
+
+图4-3 Point2d内存布局示意图
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P116_6905.jpg)
+
+再次用nm命令查看一下OBJ文件中为Point2d类型实现了哪些函数和方法
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P116_6913.jpg)
+
+最后一个函数是由编译器自动生成的，用于判断两个Point2d对象是否相等
+
+反编译Point2d.X()后的伪代码
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P117_6930.jpg)
+
+以p.Point为参数来调用Point.X()方法的代码，也就说明这是个包装方法，因此可以推测，编译器对于继承来的方法都是通过生成相应的包装方法来调用原始
+方法的方式实现的。
+
+反编译(∗Point2d).SetX()
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P117_6941.jpg)
+
+- 第1条指令把接收者的值复制到AX寄存器中。
+- 第2条指令尝试访问AX存储的地址处的数据，如果接收者为空指针就会触发空指针异常。
+- 第3条指令把AX的值复制到栈上接收者参数的位置，这一行其实可以优化掉。
+- 第4条指令用于跳转到(∗Point).SetX()方法的起始地址。
+
+反编译一下(∗Point2d).X()方法，对照汇编整理出的伪代码如下：
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P118_6964.jpg)
+
+可以看到除了接收者为指针类型外，代码逻辑与Point2d.X()方法基本一致
+
+### 4.3.2 嵌入指针
+
+{{< embedcode go "code/4_3.go" >}}
+
+图4-4 Point2d与Point的内存布局关系
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P119_6983.jpg)
+
+再用nm命令查看一下OBJ文件中为Point2d类型实现了哪些函数和方法
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P119_6991.jpg)
+
+这里值得注意的是Point2d.SetX()方法，它的存在意味着虽然接收者Point2d是通过值的形式传递的，但是通过Point2d的值可以得到原始Point对象的地址，
+所以依然可以对原始Point对象进行修改。
+
+看一下在嵌入指针的情况下(∗Point2d).SetX()方法还会不会被优化处理
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P119_6999.jpg)
+
+- 编译器还进行了优化处理，第1行指令把栈上的接收者参数复制到AX寄存器中，其实也就是Point2d对象的地址。
+- 第2行指令把Point2d的第1个字段的值复制到AX寄存器中，也就是Point对象的地址。
+- 第3行指令把AX的值复制回栈上的接收者参数处。
+- 第4行指令用于跳转到(∗Point).SetX()方法的起始地址。
+
+至于其他3种方法，编译器都会生成相应的包装方法, 伪代码
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P120_16336.jpg)
+
+因为在嵌入指针的情况下总是能够得到基类对象的地址，所以子类中的值接收者方法可以调用基类中的指针接收者方法，编译器会尽可能把符合逻辑的包装方法
+都生成出来。
+
+### 4.3.3 多重继承
+
+首先定义两种类型A和B
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P120_7032.jpg)
+
+定义一种类型C，将A和B以值的形式嵌入
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P121_7054.jpg)
+
+通过nm命令查看编译生成的OBJ文件中都实现了哪些方法
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P121_7062.jpg)
+
+发现只有A和B的方法，编译器没有为C生成任何方法。结合Go语言官方文档的说明，因为同时嵌入A和B而且嵌套的层次相同，所以编译器不知道应该让包装方法
+继承自谁，这种情况只能由程序员手工实现。
+
+定义一种类型D，把A以嵌入值的形式嵌入D中，然后把C中的A改成D
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P122_7073.jpg)
+
+再次通过nm命令查看
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P122_7081.jpg)
+
+这次类型C成功地继承了这一组方法，对这些方法进行反编译就能确定是继承自类型B，因为B的嵌套层次比A要浅，编译器优先选择短路径。
+
+## 4.4 本章小结

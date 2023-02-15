@@ -7,6 +7,15 @@
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Sat, 04 Feb 2023 10:32:18 +0800</lastBuildDate><atom:link href="https://jdxj.github.io/posts/books/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2go%E8%AF%AD%E8%A8%80--%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%E4%B8%8Eruntime%E7%9A%84%E5%8E%9F%E7%90%86%E7%89%B9%E6%80%A7%E5%8F%8A%E5%BA%94%E7%94%A8/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>第4章 方法</title>
+      <link>https://jdxj.github.io/posts/books/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2go%E8%AF%AD%E8%A8%80--%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%E4%B8%8Eruntime%E7%9A%84%E5%8E%9F%E7%90%86%E7%89%B9%E6%80%A7%E5%8F%8A%E5%BA%94%E7%94%A8/%E7%AC%AC4%E7%AB%A0-%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Tue, 14 Feb 2023 20:38:20 +0800</pubDate>
+      
+      <guid>https://jdxj.github.io/posts/books/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2go%E8%AF%AD%E8%A8%80--%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%E4%B8%8Eruntime%E7%9A%84%E5%8E%9F%E7%90%86%E7%89%B9%E6%80%A7%E5%8F%8A%E5%BA%94%E7%94%A8/%E7%AC%AC4%E7%AB%A0-%E6%96%B9%E6%B3%95/</guid>
+      <description>1 2 3 4 5 6 7 8 9 10 11 12 13 14 // 第4章 code_4_1.go package gom type Point struct { x float64 } func (p Point) X() float64 { return p.x } func (p *Point) SetX(x float64) { p.x = x } 4.1 接收者类型 为了排除编译器内联优化造成的干扰，</description>
+    </item>
+    
+    <item>
       <title>第3章 函数</title>
       <link>https://jdxj.github.io/posts/books/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2go%E8%AF%AD%E8%A8%80--%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%E4%B8%8Eruntime%E7%9A%84%E5%8E%9F%E7%90%86%E7%89%B9%E6%80%A7%E5%8F%8A%E5%BA%94%E7%94%A8/%E7%AC%AC3%E7%AB%A0-%E5%87%BD%E6%95%B0/</link>
       <pubDate>Mon, 06 Feb 2023 21:40:56 +0800</pubDate>
