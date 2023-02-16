@@ -12,3 +12,4 @@ googleAnalytics: G-FBE4H074FW
 cleanDestinationDir: true
 gc: true
 minify: true
+navigateToChanged: true
