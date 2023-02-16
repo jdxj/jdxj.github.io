@@ -10,3 +10,5 @@ watch: true
 pluralizeListTitles: false
 googleAnalytics: G-FBE4H074FW
 cleanDestinationDir: true
+gc: true
+minify: true
