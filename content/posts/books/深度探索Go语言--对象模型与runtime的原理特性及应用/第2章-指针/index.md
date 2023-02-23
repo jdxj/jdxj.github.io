@@ -120,7 +120,7 @@ p = (*int)(unsafe.Pointer(uintptr(unsafe.Pointer(p))+unsafe.Sizeof(*p)))
 **uintptr不属于指针，所以会被GC忽略, 造成堆上的对象被认为不可达，进而被释放**。用unsafe.Pointer就不会存在这个问题了，unsafe.Pointer类
 似于C语言中的void∗，虽然未指定元素类型，但是本身类型就是个指针。
 
-> 参考[聊一个string和[]byte转换问题]({{< ref "posts/collections/articles/聊一个string和[]byte转换问题.md" >}})
+> 参考[聊一个string和[]byte转换问题]({{< ref "posts/collections/huoding/聊一个string和[]byte转换问题.md" >}})
 
 ### 2.3.3 内存对齐
 
