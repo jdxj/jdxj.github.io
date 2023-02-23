@@ -1,7 +1,7 @@
 ---
 title: "第8章 堆"
 date: 2023-02-22T21:08:46+08:00
-draft: true
+draft: false
 ---
 
 ## 8.1 内存分配
@@ -49,3 +49,64 @@ Go的堆分配采用了与tcmalloc内存分配器类似的算法，tcmalloc是�
 [mksizeclasses.go](sizeclasses.go文件是被程序生成出来的，源码就在mksizeclasses.go文件中)文件中
 
 ### 8.1.2 heapArena
+
+Go语言的runtime将堆地址空间划分成多个arena，在amd64架构的Linux环境下，每个arena的大小是64MB，起始地址也是对齐到64MB的。每个arena都有一
+个与之对应的heapArena结构，用来存储arena的元数据
+
+图8-2 area与heapArena的关系
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P326_13891.jpg)
+
+heapArena是在Go的堆之外分配和管理的
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P326_13899.jpg)
+
+bitmap字段是个位图
+
+- 它用两个二进制位来对应arena中一个指针大小的内存单元，所以对于64MB大小的arena来讲，heapArenaBitmapBytes的值是
+  64MB/8/8×2＝2MB(64MB/8B=8M, 8M*2b/8=2MB)，这个位图在GC扫描阶段会被用到。
+- bitmap第一字节中的8个二进制位，对应的就是arena起始地址往后32字节的内存空间。
+- 用来描述一个内存单元的两个二进制位当中，低位用来区分内存单元中存储的是指针还是标量，1表示指针，0表示标量，所以也被称为**指针／标量位**。
+- 高位用来表示当前分配的这块内存空间的后续单元中是否包含指针，例如在堆上分配了一个结构体，可以知道后续字段中是否包含指针，如果没有指针就不需
+  要继续扫描了，所以也被称为**扫描／终止位**。
+- 为了便于操作，一个位图字节中的指针／标量位和扫描／终止位被分开存储，**高4位存储4个扫描／终止位**，**低4位存储4个指针／标量位**。
+
+图8-3 arena起始处分配一个slice对应的bitmap标记
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P327_13905.jpg)
+
+spans数组用来把当前arena中的页面映射到对应的mspan，暂时先认为一个mspan管理一组连续的内存页面
+
+pagesPerArena表示arena中共有多少个页面，用arena大小(64MB)除以页面大小(8KB)得到的结果是8192
+
+图8-4 arena中的页面到mspan的映射
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P328_13912.jpg)
+
+pageInUse是个长度为1024的uint8数组，实际上被用作一个8192位的位图
+
+- 通过它和spans可以快速地找到那些处于mSpanInUse状态的mspan。
+- 虽然pageInUse位图为arena中的每个页面都提供了一个二进制位，但是对于那些包含多个页面的mspan，只有第1个页面对应的二进制位会被用到，标记的
+  是整个span。
+
+图8-5 pageInUse位图标记使用中的span
+
+![](https://res.weread.qq.com/wrepub/CB_3300047233_Figure-P328_13915.jpg)
+
+pageMarks表示哪些span中存在被标记的对象
+
+- 与pageInUse一样用与起始页面对应的一个二进制位来标记整个span。
+- 在GC的标记阶段会原子性地修改这个位图，标记结束之后就不会再进行改动了。
+- 清扫阶段如果发现某个span中不存在任何被标记的对象，就可以释放整个span了。
+
+> 不是被标记的才释放吗?
+
+pageSpecials又是一个与pageInUse类似的位图，只不过标记的是哪些span包含特殊设置，目前主要指的是包含finalizers，或者runtime内部用来存储
+heap profile数据的bucket。
+
+checkmarks是一个大小为1MB的位图，其中每个二进制位对应arena中一个指针大小的内存单元。当开启调试debug.gccheckmark的时候，checkmarks位图
+用来存储GC标记的数据。该调试模式会在STW的状态下遍历对象图，用来校验**并发回收器**能够正确地标记所有存活的对象。
+
+zeroedBase记录的是当前arena中下个还未被使用的页面的位置，相对于arena起始地址的偏移量。页面分配器会按照地址顺序分配页面，所以zeroedBase之
+后的页面都还没有被用到，因此还都保持着清零的状态。通过它可以快速判断分配的内存是否还需要进行清零。
+
