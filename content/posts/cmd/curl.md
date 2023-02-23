@@ -127,6 +127,8 @@ curl --referer "https://fake.example;auto" -L https://example.com
 
 输出包括响应 header
 
+注意, 如果使用 -o 选项, 那么会把 header 也输出到文件中
+
 
 
 ## `-v, --verbose`
