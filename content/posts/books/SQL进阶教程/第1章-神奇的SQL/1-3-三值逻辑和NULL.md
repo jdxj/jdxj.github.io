@@ -248,7 +248,7 @@ FROM Class_A A
 WHERE true;
 ```
 
-## 4. 限定谓词和NULL
+## 4. 限定谓词和NULL {#qualified-predicates-and-null}
 
 any与in等价
 
