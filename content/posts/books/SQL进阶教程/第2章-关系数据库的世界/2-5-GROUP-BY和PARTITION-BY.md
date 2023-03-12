@@ -1,8 +1,13 @@
 ---
 title: "2-5 GROUP BY和PARTITION BY.md"
 date: 2023-03-01T21:54:29+08:00
-draft: true
+draft: false
 ---
+
+本节将以集合论和群论中的“类”这一重要概念为核心，阐明GROUP BY和PARTITION BY的意义。
+
+SQL的语句中具有分组功能的是GROUP BY和PARTITION BY，它们都可以根据指定的列为表分组。区别仅仅在于，GROUP BY在分组之后会把每个分组聚合成一
+行数据。
 
 Teams
 
