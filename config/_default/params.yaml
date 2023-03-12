@@ -18,3 +18,8 @@ fuseOpts:
 homeInfoParams:
   title: "jdxj's notebook"
   content: A letter from home is a priceless treasure.
+socialIcons:
+  - name: Github
+    url: "https://github.com/jdxj"
+  - name: RSS
+    url: "index.xml"
