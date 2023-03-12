@@ -1,7 +1,13 @@
 main:
-  - identifier: tags
-    url: /tags
-    name: Tags
   - identifier: archives
     name: Archives
+    url: /archives
+  - identifier: collections
+    name: Collections
     url: /posts
+  - identifier: search
+    name: Search
+    url: /search
+  - identifier: tags
+    name: Tags
+    url: /tags

@@ -7,3 +7,14 @@ showToc: true
 tocOpen: true
 ShowRssButtonInSectionTermList: true
 disableSpecial1stPost: true
+fuseOpts:
+  isCaseSensitive: false
+  shouldSort: true
+  location: 0
+  distance: 1000
+  threshold: 0.4
+  minMatchCharLength: 0
+  keys: [ "title", "permalink", "summary", "content" ]
+homeInfoParams:
+  title: "jdxj's notebook"
+  content: A letter from home is a priceless treasure.
