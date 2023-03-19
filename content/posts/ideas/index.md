@@ -10,7 +10,8 @@ draft: true
 - Git
 - Root
 - 啥是overlay
-
-可以写一个小工具, 用于展示月份缩写等
-
-整理编程原则, 例如KISS原则那些
+- 可以写一个小工具, 用于展示月份缩写等
+- 整理编程原则, 例如KISS原则那些
+- 开启gzip
+- aria2
+- [bt原理](https://www.bittorrent.org/index.html)
