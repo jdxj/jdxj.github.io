@@ -1,6 +1,5 @@
 ---
 title: "SQL进阶教程"
 date: 2023-02-23T21:30:25+08:00
-draft: false
 ---
 

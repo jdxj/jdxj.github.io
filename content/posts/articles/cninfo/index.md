@@ -1,7 +1,6 @@
 ---
 title: "巨潮资讯"
 date: 2023-02-12T14:30:16+08:00
-draft: false
 tags:
   - data
 ---

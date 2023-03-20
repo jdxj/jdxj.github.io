@@ -1,7 +1,6 @@
 ---
 title: "Hello Hugo!"
 date: 2023-02-18T19:52:22+08:00
-draft: false
 summary: 用于测试hugo特性.
 ---
 

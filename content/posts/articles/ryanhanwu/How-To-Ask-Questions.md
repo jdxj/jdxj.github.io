@@ -1,7 +1,6 @@
 ---
 title: "How to Ask Questions The Smart Way"
 date: 2022-12-24T12:42:21+08:00
-draft: false
 ---
 
 [原文](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/main/README-zh_CN.md)

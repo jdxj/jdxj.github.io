@@ -1,7 +1,6 @@
 ---
 title: "MySQL的COUNT是怎么执行的"
 date: 2023-02-20T17:28:18+08:00
-draft: false
 tags:
   - mysql
 ---

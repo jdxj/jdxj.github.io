@@ -1,7 +1,6 @@
 ---
 title: "Golang Developer Roadmap"
 date: 2023-02-21T13:51:24+08:00
-draft: false
 tags:
   - roadmap
 ---

@@ -1,7 +1,6 @@
 ---
 title: "第6章 Goroutine"
 date: 2023-02-19T13:24:14+08:00
-draft: false
 summary: 6.2 IO多路复用写的不是特别详细
 ---
 

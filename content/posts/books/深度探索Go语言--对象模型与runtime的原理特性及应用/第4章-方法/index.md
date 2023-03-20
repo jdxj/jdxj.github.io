@@ -1,7 +1,6 @@
 ---
 title: "第4章 方法"
 date: 2023-02-14T20:38:20+08:00
-draft: false
 ---
 
 {{< embedcode go "code/4_1.go" >}}

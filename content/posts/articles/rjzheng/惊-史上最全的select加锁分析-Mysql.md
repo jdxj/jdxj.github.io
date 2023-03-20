@@ -1,7 +1,6 @@
 ---
 title: "惊! 史上最全的select加锁分析(Mysql)"
 date: 2023-02-06T16:49:26+08:00
-draft: false
 tags:
   - mysql
   - lock

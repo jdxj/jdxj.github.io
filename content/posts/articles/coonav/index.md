@@ -1,7 +1,6 @@
 ---
 title: "小葫芦大数据"
 date: 2023-03-11T11:14:36+08:00
-draft: false
 tags:
   - data
 ---

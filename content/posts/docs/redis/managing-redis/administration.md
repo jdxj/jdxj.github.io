@@ -1,7 +1,6 @@
 ---
 title: "Redis administration"
 date: 2022-12-30T14:22:21+08:00
-draft: false
 ---
 
 # Redis setup tips

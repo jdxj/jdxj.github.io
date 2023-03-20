@@ -1,7 +1,6 @@
 ---
 title: "Redis security"
 date: 2022-12-30T15:54:38+08:00
-draft: false
 ---
 
 # Security model

@@ -1,7 +1,6 @@
 ---
 title: "Redis FAQ"
 date: 2022-12-30T10:22:21+08:00
-draft: false
 ---
 
 # How is Redis different from other key-value stores?

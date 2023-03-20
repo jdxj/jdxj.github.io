@@ -1,7 +1,6 @@
 ---
 title: "2-5 GROUP BY和PARTITION BY.md"
 date: 2023-03-01T21:54:29+08:00
-draft: false
 ---
 
 本节将以集合论和群论中的“类”这一重要概念为核心，阐明GROUP BY和PARTITION BY的意义。
