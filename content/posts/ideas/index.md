@@ -15,3 +15,5 @@ draft: true
 - 开启gzip
 - aria2
 - [bt原理](https://www.bittorrent.org/index.html)
+- tls优化
+- tls安全配置
