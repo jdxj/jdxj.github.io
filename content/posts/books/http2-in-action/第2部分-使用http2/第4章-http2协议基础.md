@@ -255,3 +255,208 @@ HTTP消息时一样。因为它无法识别这个无意义的方法（PRI）和H
 但是没有说为什么。
 
 ## 4.3 HTTP/2帧
+
+### 4.3.1 查看HTTP/2帧
+
+使用Chrome net-export
+
+- 抓包[chrome://net-export](https://netlog-viewer.appspot.com/#import)
+- 查看日志 https://netlog-viewer.appspot.com/#import
+
+图4.7　在Chrome中查看HTTP/2帧
+
+![](https://res.weread.qq.com/wrepub/epub_32517945_98)
+
+以下输出来自一个SETTINGS帧：
+
+![](https://res.weread.qq.com/wrepub/epub_32517945_99)
+
+使用[nghttp](https://nghttp2.org/)
+
+![](https://res.weread.qq.com/wrepub/epub_32517945_100)
+
+使用Wireshark
+
+- 需要告诉Wireshark HTTPS密钥
+
+![](https://res.weread.qq.com/wrepub/epub_32517945_101)
+
+- 对于macOS，设置SSLKEYLOGFILE环境变量
+
+![](https://res.weread.qq.com/wrepub/epub_32517945_102)
+
+- 或者直接作为命令行参数提供
+
+![](https://res.weread.qq.com/wrepub/epub_32517945_103)
+
+- 在Wireshark中加载密钥
+
+图4.8　设置Wireshark HTTPS密钥文件
+
+![](https://res.weread.qq.com/wrepub/epub_32517945_104)
+
+图4.9　Wireshark中显示的HTTP/2魔法字符串
+
+![](https://res.weread.qq.com/wrepub/epub_32517945_105)
+
+图4.10　Wireshark中的ClientHello消息中的ALPN扩展
+
+![](https://res.weread.qq.com/wrepub/epub_32517945_107)
+
+### 4.3.2 HTTP/2帧数据格式
+
+每个HTTP/2帧由一个固定长度的头部和不定长度的负载组成。
+
+表4.1　HTTP/2帧头部格式
+
+![](https://res.weread.qq.com/wrepub/epub_32517945_108)
+
+- Stream Identifier, 将此字段限制为31位的其中一个原因是考虑到Java的兼容性，因为它没有32位无符号整数
+
+### 4.3.3 HTTP/2消息流示例
+
+![](https://res.weread.qq.com/wrepub/epub_32517945_109)
+![](https://res.weread.qq.com/wrepub/epub_32517945_110)
+![](https://res.weread.qq.com/wrepub/epub_32517945_111)
+
+可以使用-n参数来隐藏数据，仅显示帧头部：
+
+![](https://res.weread.qq.com/wrepub/epub_32517945_112)
+
+1. 首先，通过HTTPS（h2）协商建立HTTP/2连接。nghttp不输出HTTPS建立过程和HTTP/2前奏/“魔术”消息，因此我们首先看到SETTINGS帧：
+
+![](https://res.weread.qq.com/wrepub/epub_32517945_113)
+
+**SETTINGS帧**
+
+SETTINGS帧（0x4）是服务器和客户端必须发送的第一个帧（在HTTP/2前奏/“魔术”消息之后）。该帧不包含数据，或只包含若干键/值对
+
+表4.2　SETTINGS帧格式
+
+![](https://res.weread.qq.com/wrepub/epub_32517945_114)
+
+> 规范中的Value是默认值, 顺序与Identifier对应, e.g. 0x1->4096.
+
+再回头看第一个消息
+
+![](https://res.weread.qq.com/wrepub/epub_32517945_115)
+
+收到的SETTINGS帧有30个8位字节数据，没有设置标志位（因此不是确认帧），使用的流ID为0。流ID 0是保留数字，用于控制消息（SETTINGS和
+WINDOW_UPDATE帧），所以服务器使用流ID 0发送此SETTINGS帧是合理的。
+
+在此示例中有5个设置项（niv=5），每个设置项长度为16位（标识符）+32位（值）。也就是说，每项设置有48位即6字节
+
+2. 查看接下来的3个SETTINGS帧
+
+![](https://res.weread.qq.com/wrepub/epub_32517945_117)
+
+nghttp接收初始服务器SETTINGS帧（刚讨论过），然后，客户端发送带有几个设置项的SETTINGS帧。接下来，客户端确认服务器的SETTINGS帧。确认SETTINGS
+帧非常简单，只有一个ACK（0x01）标志，长度为0，因此只有0设置（niv=0）。再接下来是服务器确认客户端的SETTINGS帧，格式同样简单。
+
+**WINDOW_UPDATE帧**
+
+![](https://res.weread.qq.com/wrepub/epub_32517945_118)
+
+WINDOW_UPDATE帧（0x8）用于流量控制，比如限制发送数据的数量，防止接收端处理不完。在HTTP/1下，同时只能有一个请求。如果客户端无法及时处理数据，它
+会停止处理TCP数据包，然后TCP流量控制（类似HTTP/2流量控制）开始工作，降低发送数据的流量，直到接收方可以正常处理为止。在HTTP/2下，在同一个连接上
+有多个流，所以不能依赖TCP流量控制，必须自己实现针对每个流的减速方法。
+
+表4.3　WINDOW_UPDATE帧格式
+
+![](https://res.weread.qq.com/wrepub/epub_32517945_119)
+
+WINDOW_UPDATE帧未定义标志位，该设置用于给定的流，如果流ID指定为0，则应用于整个HTTP/2连接。发送方必须跟踪每个流和整个连接。
+
+> `如果流ID指定为0`中的流ID应该是帧首部中的`Stream Identifier`.
+
+HTTP/2流量控制设置仅应用于DATA帧，所有其他类型的帧（至少目前定义的），就算超出了窗口大小的限制也可以继续发送。这个特性可以防止重要的控制消息（比
+如WINDOW_UPDATE帧自己）被较大的DATA帧阻塞。同时DATA帧也是唯一可以为任意大小的帧。
+
+**PRIORITY帧**
+
+![](https://res.weread.qq.com/wrepub/epub_32517945_120)
+
+通过dep_stream_id，它将其他流悬挂在开始时创建的流之下(该流依赖dep_stream_id所指定的流)。使用之前创建的流的优先级，可以方便地对请求进行优先级
+排序，无须为每个后续新创建的流明确指定优先级。并非所有HTTP/2客户端都给流**预定义优先级**
+
+表4.4　PRIORITY帧格式
+
+![](https://res.weread.qq.com/wrepub/epub_32517945_121)
+
+PRIORITY帧（0x2）长度固定，没有定义标志位。
+
+**HEADERS帧**
+
+**一个HTTP/2请求以HEADERS帧开始发送（0x1）**
+
+![](https://res.weread.qq.com/wrepub/epub_32517945_122)
+
+HTTP/2定义了新的伪首部（以冒号开始），以定义HTTP请求中的不同部分：
+
+![](https://res.weread.qq.com/wrepub/epub_32517945_124)
+
+- :authority伪首部代替了原来HTTP/1.1的Host首部
+- HTTP/2伪首部定义严格，不像标准的HTTP首部那样可以在其中添加新的自定义首部
+
+不能这样创建新的伪首部
+
+```
+:barry: value
+```
+
+如果应用需要，还得用普通的HTTP首部，没有开头的冒号
+
+```
+barry: value
+```
+
+可以依照新的规范来创建新的伪首部
+
+- 在Bootstrapping WebSockets with HTTP/2 RFC中添加:protocol伪首部。应用新的伪首部需要使用新的SETTINGS参数，也需要客户端和服务端的支持。
+- 可以在客户端工具中查看这些伪首部，它们表明正在使用HTTP/2请求
+
+图4.11　Chrome开发者工具中的伪首部
+
+![](https://res.weread.qq.com/wrepub/epub_32517945_127)
+
+**HTTP/2强制将HTTP首部名称小写**, HTTP首部的值可以包含不同的大小写字母
+
+- HTTP/2对HTTP首部的格式要求也更严格。开头的空格、双冒号或者换行，在HTTP/2中都会带来问题
+- 当客户端发现首部格式不正确时，报错信息通常含义不明（比如Chrome中的ERR_SPDY_PROTOCOL_ERROR）
+
+表4.5　HEADERS帧格式
+
+![](https://res.weread.qq.com/wrepub/epub_32517945_128)
+
+- 添加Pad Length和Padding字段是出于安全原因，用以隐藏真实的消息长度。
+- Header Block Fragment（首部块片段）字段包含所有的首部（和伪首部）。这个字段不是纯文本的，不像nghttp里所显示的那样。(首部压缩了)
+
+HEADERS首部定义了4个标志位
+
+- END_STREAM(0x1)，如果当前HEADERS帧后面没有其他帧（比如POST请求，后面会跟DATA帧），设置此标志。有点违反直觉的是，CONTINUATION帧不受此限
+  制，它们由END_HEADERS标志控制，被当作HEADERS帧的延续，而不是额外的帧。
+- END_HEADERS（0x4），它表明所有的HTTP首部都已经包含在此帧中，后面没有CONTINUATION帧了。
+- PADDED(0x8)，当使用数据填充时设置此标志位。这个标志表明，DATA帧的前8位代表HEADERS帧中填充的内容长度。
+- PRIORITY(0x20)，表明在帧中设置了E、Stream Dependency和Weight字段。
+
+如果HTTP首部尺寸超出一个帧的容量，则需要使用一个CONTINUATION帧（紧接着是一个HEADERS帧），而不是使用另外一个HEADERS帧。
+
+- 这个过程相较于HTTP正文来说好像过于复杂，HTTP正文会使用多个DATA帧。因为表4.5中的其他字段只能使用一次，所以如果同一个请求有多个HEADERS帧，并
+  且它们的其他字段值不同，就会带来一些问题。
+- 要求**CONTINUATION帧紧跟在HEADERS帧后面，其中不能插入其他帧**，这影响了HTTP/2的多路复用，人们正考虑其他替代方案。
+- 实际上CONTINUATION帧很少使用，大多数请求都不会超出一个HEADERS帧的容量。
+
+再回头看这些日志输出
+
+![](https://res.weread.qq.com/wrepub/epub_32517945_129)
+
+- 每个新的请求都会被分配一个独立的流ID，其值在上一个流ID的基础上自增（在这个示例中上一个流ID是11，它是nghttp创建的PRIORITY帧，所以这个帧使用
+  流ID13创建，偶数12是服务端使用的）。
+- 同时设置了多个标志位，组合起来的十六进制数为0x25
+  - 其中的END_STREAM（0x1）和END_HEADERS（0x4）标志位说明，当前帧包含完整的请求，没有DATA帧（可能用于POST请求）。
+  - PRIORITY标志位（0x20）表明，此帧使用了优先级策略。
+  - 将这些十六进制数加起来（0x1 + 0x4 + 0x20），结果是0x25，在帧首部中显示。
+- 这个流依赖流11，所以被分配了对应的优先级，权重为16。
+- nghttp的注释说，这个流是新建的（Open new stream），
+- 然后列出了多个HTTP伪首部和HTTP请求首部
+
