@@ -17,3 +17,4 @@ draft: true
 - [bt原理](https://www.bittorrent.org/index.html)
 - tls优化
 - tls安全配置
+- 头寸
