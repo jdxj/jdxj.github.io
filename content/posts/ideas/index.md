@@ -18,3 +18,4 @@ draft: true
 - tls优化
 - tls安全配置
 - 头寸
+- nginx禁用deflate
