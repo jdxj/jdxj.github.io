@@ -19,3 +19,8 @@ draft: true
 - tls安全配置
 - 头寸
 - nginx禁用deflate
+- 客户机开启bbr
+- 开启tcp fast open, nginx编译时可以指定
+- 重学tcp
+- 尝试quic
+- tcp优化
