@@ -24,3 +24,6 @@ draft: true
 - 重学tcp
 - 尝试quic
 - tcp优化
+- 如何开启TSopt
+- nginx可以配置一些tcp选项, 可以在nginx中改
+- 统一tcp优化脚本
