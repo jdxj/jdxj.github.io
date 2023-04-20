@@ -1,7 +1,6 @@
 ---
 title: "第1章 从这里开始, 起飞了"
 date: 2023-04-18T09:11:27+08:00
-draft: true
 ---
 
 ## 1.1 脚本文件的书写格式
@@ -242,3 +241,87 @@ $ unset test
 
 ## 1.7 数据过滤与正则表达式
 
+```bash
+$ grep [选项] 匹配模式 [文件]
+```
+
+- -i 忽略大小写
+- -v 取反匹配
+- -w 匹配单词
+- -q 静默匹配，不将结果显示在屏幕上
+
+### 基本正则表达式（Basic Regular Expression）
+
+表1-6 基本正则表达式及其含义
+
+![](https://res.weread.qq.com/wrepub/epub_27741237_30)
+
+### 扩展正则表达式（Extended Regular Expression）
+
+表1-7 扩展正则表达式及其含义
+
+![](https://res.weread.qq.com/wrepub/epub_27741237_31)
+
+grep命令默认不支持扩展正则表达式，需要使用grep -E或者使用egrep命令进行扩展正则表达式的过滤。
+
+### POSIX规范的正则表达式
+
+表1-8 POSIX规范字符集
+
+![](https://res.weread.qq.com/wrepub/epub_27741237_32)
+
+```bash
+$ grep "[[:digit:]]"  /tmp/passwd
+```
+
+### GNU规范
+
+- \b（边界字符，匹配单词的开始或结尾）
+- \B（与\b为反义词，\Bthe\B不会匹配单词the，仅会匹配the在中间的单词，如atheist）
+- \w（等同于[_[:alnum:]]）
+- \W（等同于[^_[:alnum:]]）
+- \d表示任意数字
+- \D表示任意非数字
+- \s表示任意空白字符（空格、制表符等）
+- \S表示任意非空白字符
+
+```bash
+#匹配i结尾的单词
+$ grep "i\b"  /tmp/passwd
+```
+
+## 1.8 各式各样的算术运算
+
+整数运算
+
+- $((expr))
+- $[expr]
+- let expr
+
+表1-9 常用运算符号
+
+![](https://res.weread.qq.com/wrepub/epub_27741237_33)
+
+```bash
+$ echo $((2+4))
+```
+
+使用let命令计算时，默认不会输出运算的结果，一般需要将运算的结果赋值给变量，通过变量查看运算结果。另外，使用let命令对变量进行计算时，不需要在变量
+名前添加$符号。
+
+```bash
+$ x=5
+$ let x++
+$ echo $x
+```
+
+非交互模式使用bc
+
+```bash
+$ x=$(echo "(1+2)*3"|bc)
+$ echo $x
+
+$ $ echo "2+3; scale=2;8/19" | bc
+5
+.42
+```

@@ -3,10 +3,11 @@ title: "直接展示结果到终端而不是pager"
 date: 2023-03-20T16:18:51+08:00
 summary: 要不还得按`q`退出
 tags:
+  - git
   - git config
 ---
 
-```shell
+```bash
 $ git config --global pager.branch false
 ```
 
