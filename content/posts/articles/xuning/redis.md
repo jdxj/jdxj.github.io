@@ -5,8 +5,4 @@ tags:
   - redis
 ---
 
-最终方案
-
-![](https://images2018.cnblogs.com/blog/566097/201802/566097-20180224105513939-1484357459.png)
-
 [原文](https://www.cnblogs.com/xuning/p/8464625.html)
