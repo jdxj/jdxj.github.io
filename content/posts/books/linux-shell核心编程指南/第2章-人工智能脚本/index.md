@@ -134,3 +134,52 @@ Y
 表2-3 [[]]和[]的对比
 
 ![](https://res.weread.qq.com/wrepub/epub_27741237_39)
+
+## 2.6 实战案例：系统性能监控脚本
+
+## 2.7 实战案例：单分支if语句
+
+```shell
+if cond
+then
+  cmd
+fi
+
+if cond; then
+  cmd
+fi
+```
+
+任何有退出码的命令都可以写在if后面
+
+```shell
+if grep -q AMD /proc/cpuinfo; then
+  echo "AMD CPU"
+fi
+```
+
+## 2.8 实战案例：双分支if语句
+
+```shell
+if cond; then
+  cmd
+else
+  cmd
+fi
+```
+
+## 2.9 实战案例：如何监控HTTP服务状态
+
+## 2.10 实战案例：多分支if语句
+
+```shell
+if cond; then
+  cmd
+elif cond; then
+  cmd
+else
+  cmd
+fi
+```
+
+## 2.11 实战案例：简单、高效的case语句

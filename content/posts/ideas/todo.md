@@ -27,3 +27,5 @@ draft: true
 - 如何开启TSopt
 - nginx可以配置一些tcp选项, 可以在nginx中改
 - 统一tcp优化脚本
+- 思考redis为什么采用不同的底层编码
+  - 结合使用来思考
