@@ -1,7 +1,6 @@
 ---
 title: "DIP"
-date: 2023-05-24T12:34:37+08:00
-weight: 5
+date: 2023-05-23T18:30:01+08:00
 summary: Dependency Inversion Principle 依赖反转原则/依赖倒置原则
 ---
 

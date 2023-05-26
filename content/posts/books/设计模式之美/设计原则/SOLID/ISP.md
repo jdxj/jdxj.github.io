@@ -1,7 +1,6 @@
 ---
 title: "ISP"
-date: 2023-05-24T11:56:16+08:00
-weight: 4
+date: 2023-05-23T18:30:02+08:00
 summary: Interface Segregation Principle 接口隔离原则
 ---
 

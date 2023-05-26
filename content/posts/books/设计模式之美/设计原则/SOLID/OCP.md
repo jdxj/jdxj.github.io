@@ -1,7 +1,6 @@
 ---
 title: "OCP"
-date: 2023-05-23T18:45:27+08:00
-weight: 2
+date: 2023-05-23T18:30:04+08:00
 summary: Open Closed Principle 开闭原则
 ---
 

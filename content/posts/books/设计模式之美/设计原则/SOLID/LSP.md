@@ -1,7 +1,6 @@
 ---
 title: "LSP"
-date: 2023-05-24T11:35:44+08:00
-weight: 3
+date: 2023-05-23T18:30:03+08:00
 summary: Liskov Substitution Principle 里式替换原则
 ---
 

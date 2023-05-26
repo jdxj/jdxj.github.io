@@ -1,7 +1,6 @@
 ---
 title: "SRP"
-date: 2023-05-23T18:30:07+08:00
-weight: 1
+date: 2023-05-23T18:30:05+08:00
 summary: Single Responsibility Principle 单一职责原则
 ---
 
