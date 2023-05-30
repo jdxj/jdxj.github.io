@@ -303,3 +303,9 @@ func (m *Mutex) unlockSlow(new int32) {
     }
 }
 ```
+
+# vet发现Mutex复制原理
+
+检查是通过[copylock](https://github.com/golang/tools/blob/master/go/analysis/passes/copylock/copylock.go)分析器静态分析实现的。
+这个分析器会分析函数调用、range 遍历、复制、声明、函数返回值等位置，有没有锁的值 copy 的情景，以此来判断有没有问题。可以说，只要是实现了
+Locker 接口，就会被分析。
