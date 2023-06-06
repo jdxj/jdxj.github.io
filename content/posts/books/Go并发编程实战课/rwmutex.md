@@ -1,5 +1,5 @@
 ---
-title: "RWMutex"
+title: "rwMutex"
 date: 2023-04-24T11:16:15+08:00
 ---
 
