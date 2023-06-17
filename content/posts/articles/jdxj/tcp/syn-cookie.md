@@ -12,6 +12,8 @@ SYN Cookie 机制其实原理比较简单，就是在三次握手的最后阶段
 
 ![](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/6/29/16ba36e691d04901~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp)
 
+- cookie占用序列号空间, 导致tcp可选功能失效, e.g.扩充窗口, 时间戳
+
 参考
 
 - [深入浅出TCP中的SYN-Cookies](https://segmentfault.com/a/1190000019292140)

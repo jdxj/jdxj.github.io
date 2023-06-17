@@ -9,9 +9,28 @@ tags:
 
 [原文](https://www.cnblogs.com/rjzheng/p/9950951.html)
 
+# 锁的种类
+
+- Record Locks
+- Gap Locks, RR及以上级别才会加上
+- Next-Key Locks
+
+在RR, Serializable级别时, 在索引上的查询将锁表, 实现方式是Record+Gap Locks(Next-Key Locks)
+
+# 加锁分析
+
 - RC/RU+条件列非索引
 - RC/RU+条件列是聚簇索引
 - RC/RU+条件列是非聚簇索引
 - RR/Serializable+条件列非索引
 - RR/Serializable+条件列是聚簇索引
 - RR/Serializable+条件列是非聚簇索引
+
+# 总结
+
+影响锁住的记录的范围因素
+
+- 查询条件下的记录范围(等值, 范围)
+- 索引类型(非索引, 聚簇索引, 非唯一索引)
+- 隔离级别(Gap)
+- 读/写锁(s, x)

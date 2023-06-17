@@ -15,4 +15,7 @@ tags:
 - 调大net.ipv4.tcp_max_syn_backlog的值，不过这只是一个心理安慰，真有攻击的时候，这个再大也不够用。
 - 重试次数由 /proc/sys/net/ipv4/tcp_synack_retries控制，默认情况下是 5 次，当收到SYN+ACK故意不回 ACK 或者回复的很慢的时候，调小这个值
   很有必要。
-- tcp_syncookies
+- [tcp_syncookies]({{< ref "posts/articles/jdxj/tcp/syn-cookie.md" >}})
+- net.core.netdev_max_backlog 接收自网卡, 但未被内核协议栈处理的报文队列长度
+- [net.ipv4.tcp_abort_on_overflow]({{< ref "posts/articles/jdxj/tcp/连接队列.md#tcp-abort-on-overflow" >}})
+  可以返回RST
