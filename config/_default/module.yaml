@@ -4,3 +4,4 @@ mounts:
     excludeFiles:
       - "posts/**/*.o"
       - "posts/**/*.drawio"
+      - "posts/**/*.out"
