@@ -19,6 +19,7 @@
 .DS_Store
 *.bkp
 *.o
+*debug_bin*
 
 content/posts/articles/jdxj/review.md
 content/posts/articles/jdxj/self-introduction.md
