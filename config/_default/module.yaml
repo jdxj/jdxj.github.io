@@ -5,3 +5,4 @@ mounts:
       - "posts/**/*.o"
       - "posts/**/*.drawio"
       - "posts/**/*.out"
+      - "posts/**/*.test"
