@@ -3,6 +3,7 @@ title: "u 撤销修改"
 date: 2023-07-25T13:16:33+08:00
 tags:
   - vim
+  - vim-normal
 ---
 
 修改指
