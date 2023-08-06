@@ -18,6 +18,7 @@
 .hugo_build.lock
 .DS_Store
 *.bkp
+*.dtmp
 *.o
 *debug_bin*
 

@@ -141,7 +141,7 @@ res, err := client.Get("http://example.com")
 
 ## 3.2. Minimize surface area
 
-![](library-surface-area.svg)
+![](library-surface-area.drawio.svg)
 
 - 公开的"表面积"越小, 你的库在实现上会获得很大灵活性
 - 公开的"表面积"越大, 需要保证稳定的东西越多
