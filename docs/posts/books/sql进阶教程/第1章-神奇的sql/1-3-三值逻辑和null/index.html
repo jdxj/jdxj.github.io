@@ -142,7 +142,7 @@
 </span></span><span style=display:flex><span><span style=color:#75715e>--7．如果AND运算里包含unknown，则结果不为true（参考“理论篇”中的矩阵）
 </span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>SELECT</span> <span style=color:#960050;background-color:#1e0010>＊</span>
 </span></span><span style=display:flex><span><span style=color:#66d9ef>FROM</span> Class_A
-</span></span><span style=display:flex><span><span style=color:#66d9ef>WHERE</span> false<span style=color:#960050;background-color:#1e0010>或</span><span style=color:#66d9ef>unknown</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>WHERE</span> false或unknown;
 </span></span></code></pre></td></tr></table></div></div><p><strong>如果NOT IN子查询中用到的表里被选择的列中存在NULL，则SQL语句整体的查询结果永远是空。</strong></p><p>为了得到正确的结果，我们需要使用EXISTS谓词。</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
@@ -213,7 +213,7 @@
 </span></span><span style=display:flex><span><span style=color:#66d9ef>FROM</span> Class_A A
 </span></span><span style=display:flex><span><span style=color:#66d9ef>WHERE</span> <span style=color:#66d9ef>NOT</span> <span style=color:#66d9ef>EXISTS</span> ( <span style=color:#66d9ef>SELECT</span> <span style=color:#960050;background-color:#1e0010>＊</span>
 </span></span><span style=display:flex><span>                   <span style=color:#66d9ef>FROM</span> Class_B B
-</span></span><span style=display:flex><span>                   <span style=color:#66d9ef>WHERE</span> false<span style=color:#960050;background-color:#1e0010>或</span><span style=color:#66d9ef>unknown</span>);
+</span></span><span style=display:flex><span>                   <span style=color:#66d9ef>WHERE</span> false或unknown);
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#75715e>--4．子查询没有返回结果，因此相反地，NOT EXISTS为true
 </span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>SELECT</span> <span style=color:#960050;background-color:#1e0010>＊</span>

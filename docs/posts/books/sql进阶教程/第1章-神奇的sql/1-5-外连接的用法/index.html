@@ -26,7 +26,7 @@
 </span></span><span style=display:flex><span>        (<span style=color:#66d9ef>SELECT</span> name <span style=color:#66d9ef>FROM</span> Courses <span style=color:#66d9ef>WHERE</span> course <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;SQL入门’) C1
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>        ON  C0.name = C1.name
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>          LEFT OUTER JOIN
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>            (SELECT name FROM Courses WHERE course = &#39;</span>UNIX<span style=color:#960050;background-color:#1e0010>基础’</span>) C2
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>            (SELECT name FROM Courses WHERE course = &#39;</span>UNIX基础<span style=color:#960050;background-color:#1e0010>’</span>) C2
 </span></span><span style=display:flex><span>            <span style=color:#66d9ef>ON</span>  C0.name <span style=color:#f92672>=</span> C2.name
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>        <span style=color:#66d9ef>LEFT</span> <span style=color:#66d9ef>OUTER</span> <span style=color:#66d9ef>JOIN</span>
@@ -56,7 +56,7 @@
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>              AND C1.name = C0.name) AS &#34;SQL入门&#34;,
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>          (SELECT &#39;</span><span style=color:#960050;background-color:#1e0010>○</span><span style=color:#e6db74>&#39;
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>              FROM Courses C2
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>            WHERE course = &#39;</span>UNIX<span style=color:#960050;background-color:#1e0010>基础’</span>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>            WHERE course = &#39;</span>UNIX基础<span style=color:#960050;background-color:#1e0010>’</span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>                <span style=color:#66d9ef>AND</span> C2.name <span style=color:#f92672>=</span> C0.name) <span style=color:#66d9ef>AS</span> <span style=color:#e6db74>&#34;UNIX基础&#34;</span>,
 </span></span><span style=display:flex><span>            (<span style=color:#66d9ef>SELECT</span> <span style=color:#e6db74>&#39;○&#39;</span>
@@ -87,7 +87,7 @@
 </span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#66d9ef>SELECT</span> name,
 </span></span><span style=display:flex><span>      <span style=color:#66d9ef>CASE</span> <span style=color:#66d9ef>WHEN</span> <span style=color:#66d9ef>SUM</span>(<span style=color:#66d9ef>CASE</span> <span style=color:#66d9ef>WHEN</span> course <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;SQL入门’THEN 1 ELSE NULL END) = 1
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>          THEN&#39;</span><span style=color:#960050;background-color:#1e0010>○</span><span style=color:#e6db74>&#39;ELSE NULL END AS &#34;SQL入门&#34;,
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>      CASE WHEN SUM(CASE WHEN course = &#39;</span>UNIX<span style=color:#960050;background-color:#1e0010>基础’</span><span style=color:#66d9ef>THEN</span> <span style=color:#ae81ff>1</span> <span style=color:#66d9ef>ELSE</span> <span style=color:#66d9ef>NULL</span> <span style=color:#66d9ef>END</span>) <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>      CASE WHEN SUM(CASE WHEN course = &#39;</span>UNIX基础<span style=color:#960050;background-color:#1e0010>’</span><span style=color:#66d9ef>THEN</span> <span style=color:#ae81ff>1</span> <span style=color:#66d9ef>ELSE</span> <span style=color:#66d9ef>NULL</span> <span style=color:#66d9ef>END</span>) <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>
 </span></span><span style=display:flex><span>          <span style=color:#66d9ef>THEN</span><span style=color:#e6db74>&#39;○&#39;</span><span style=color:#66d9ef>ELSE</span> <span style=color:#66d9ef>NULL</span> <span style=color:#66d9ef>END</span> <span style=color:#66d9ef>AS</span> <span style=color:#e6db74>&#34;UNIX基础&#34;</span>,
 </span></span><span style=display:flex><span>      <span style=color:#66d9ef>CASE</span> <span style=color:#66d9ef>WHEN</span> <span style=color:#66d9ef>SUM</span>(<span style=color:#66d9ef>CASE</span> <span style=color:#66d9ef>WHEN</span> course <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;Java中级’THEN 1 ELSE NULL END) = 1
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>          THEN&#39;</span><span style=color:#960050;background-color:#1e0010>○</span><span style=color:#e6db74>&#39;ELSE NULL END AS &#34;Java中级&#34;
