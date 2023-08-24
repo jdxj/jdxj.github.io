@@ -21,6 +21,7 @@
 *.dtmp
 *.o
 *debug_bin*
+*.bin
 
 content/posts/articles/jdxj/review.md
 content/posts/articles/jdxj/self-introduction.md
