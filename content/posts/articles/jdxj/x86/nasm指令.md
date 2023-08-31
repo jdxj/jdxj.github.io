@@ -6,19 +6,6 @@ tags:
   - asm
 ---
 
-# 声明空间
-
-- db(declare byte) 声明字节
-
-```nasm
-; 声明5个初始值为0的字节
-db 0,0,0,0,0
-```
-
-- dw(declare word) 声明字
-- dd(declare double) 声明双字
-- dq(declare quad word) 声明四字
-
 # div 无符号除法指令
 
 可以做两种类型的除法
@@ -58,6 +45,15 @@ mov ax, 0x0400
 mov bl, 0xf0
 idiv bl
 ```
+
+# mul
+
+![](https://res.weread.qq.com/wrepub/CB_3300050845_txt011_81.jpg)
+
+mul指令可以用8位的通用寄存器或者内存单元中的数和寄存器AL中的内容相乘，结果是16位，在AX寄存器中；也可以用16位的通用寄存器或者内存单元中的数
+和寄存器AX中的内容相乘，结果是32位，高16位和低16位分别在DX和AX中。
+
+![](https://res.weread.qq.com/wrepub/CB_3300050845_txt011_82.jpg)
 
 # xor 异或
 
@@ -349,6 +345,8 @@ push word [label_a]
 处理器在执行push指令时，首先将栈指针寄存器SP的内容减去操作数的字长（以字节为单位的长度，在16位处理器上是2），然后，把要压入栈的数据存放到逻
 辑地址SS:SP所指向的内存位置
 
+**8086处理器不能在栈中压入立即数**
+
 ![](https://res.weread.qq.com/wrepub/CB_3300050845_txt010_13.jpg)
 
 # pop
@@ -426,5 +424,57 @@ shr的配对指令是逻辑左移指令shl(SHift logical Left)，它的指令格
 ![](https://res.weread.qq.com/wrepub/CB_3300050845_txt011_59.jpg)
 
 ror的配对指令是循环左移指令rol(ROtate Left)。ror、rol、shl、shr的指令格式都是相同的。
+
+# 伪指令
+
+## 声明空间
+
+- db(declare byte) 声明字节
+
+```nasm
+; 声明5个初始值为0的字节
+db 0,0,0,0,0
+```
+
+- dw(declare word) 声明字
+- dd(declare double) 声明双字
+- dq(declare quad word) 声明四字
+
+## resb
+
+REServe Byte, 保留空间, 但不初始化
+
+```nasm
+; 保留256B空间
+resb 256
+;类似指令
+resw 100 ; 声明100个未初始化的字
+resd 50  ; 声明50个未初始化的双字
+```
+
+# iret
+
+中断返回指令
+
+没有操作数，执行这条指令时，处理器依次从栈中弹出数值到IP、CS和标志寄存器。
+
+# cli
+
+清中断
+
+# sti
+
+开放中断
+
+# hlt
+
+
+使处理器停止执行指令，并处于停机状态，这将降低处理器的功耗。处于停机状态的处理器可以被外部中断唤醒并恢复执行，而且会继续执行hlt后面的指令。
+
+# test
+
+test指令在功能上和and指令是一样的，都是将两个操作数按位进行逻辑“与”，并根据结果设置相应的标志位。但是，test指令执行后，运算结果被丢弃
+
+![](https://res.weread.qq.com/wrepub/CB_3300050845_txt013_17.jpg)
 
 
