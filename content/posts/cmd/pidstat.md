@@ -1,11 +1,10 @@
 ---
 title: "pidstat"
 date: 2023-04-20T11:18:02+08:00
+summary: 一个常用的进程性能分析工具，用来实时查看进程的CPU、内存、I/O以及上下文切换等性能指标
+tags:
+  - optimize
 ---
-
-pidstat 是一个常用的进程性能分析工具，用来实时查看进程的 CPU、内存、I/O 以及上下文切换等性能指标。
-
-使用
 
 ```bash
 # 间隔5秒后输出一组数据
@@ -64,3 +63,17 @@ $ pidstat -wt 1
 08:14:05        0         -     10554  18827.00 103954.00  |__sysbench
 ...
 ```
+
+```bash
+# 间隔 1 秒展示了进程的 5 组 CPU 使用率
+# 每隔1秒输出一组数据，共输出5组
+$ pidstat 1 5
+15:56:02      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+15:56:03        0     15006    0.00    0.99    0.00    0.00    0.99     1  dockerd
+
+...
+
+Average:      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+Average:        0     15006    0.00    0.99    0.00    0.00    0.99     -  dockerd
+```
+
