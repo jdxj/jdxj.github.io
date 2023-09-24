@@ -43,3 +43,8 @@ $ perf report # 展示类似于perf top的报告
 # -g开启调用关系分析，-p指定进程号21515
 $ perf top -g -p 21515
 ```
+
+```bash
+# 记录性能事件
+$ perf record -g
+```

@@ -16,3 +16,8 @@ Requests per second:    11.63 [#/sec] (mean)
 Time per request:       859.942 [ms] (mean)
 ...
 ```
+
+```bash
+# 测试的并发请求数改成 5，同时把请求时长设置为 10 分钟
+$ ab -c 5 -t 600 http://192.168.0.10:10000/
+```

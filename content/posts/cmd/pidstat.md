@@ -77,3 +77,20 @@ Average:      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Comma
 Average:        0     15006    0.00    0.99    0.00    0.00    0.99     -  dockerd
 ```
 
+```bash
+$ pidstat -p 24344
+16:14:55      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+```
+
+```bash
+# -d 展示 I/O 统计数据，-p 指定进程号，间隔 1 秒输出 3 组数据
+$ pidstat -d -p 4344 1 3
+06:38:50      UID       PID   kB_rd/s   kB_wr/s kB_ccwr/s iodelay  Command
+06:38:51        0      4344      0.00      0.00      0.00       0  app
+06:38:52        0      4344      0.00      0.00      0.00       0  app
+06:38:53        0      4344      0.00      0.00      0.00       0  app
+```
+
+- kB_rd 表示每秒读的 KB 数
+- kB_wr 表示每秒写的 KB 数
+- iodelay 表示 I/O 的延迟（单位是时钟周期）
