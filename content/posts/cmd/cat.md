@@ -14,3 +14,21 @@ $ watch -d cat /proc/interrupts
 RES:    2450431    5279697   Rescheduling interrupts
 ...
 ```
+
+```bash
+$ cat /proc/zoneinfo
+...
+Node 0, zone   Normal
+ pages free     227894
+       min      14896
+       low      18620
+       high     22344
+...
+     nr_free_pages 227894
+     nr_zone_inactive_anon 11082
+     nr_zone_active_anon 14024
+     nr_zone_inactive_file 539024
+     nr_zone_active_file 923986
+...
+```
+

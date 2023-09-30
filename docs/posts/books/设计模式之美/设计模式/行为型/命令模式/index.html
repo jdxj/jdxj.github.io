@@ -75,7 +75,7 @@
 </span></span><span style=display:flex><span><span style=color:#75715e>//GotStartCommand/HitObstacleCommand/ArchiveCommand类省略
 </span></span></span><span style=display:flex><span><span style=color:#75715e></span>
 </span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>GameApplication</span> <span style=color:#f92672>{</span>
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>final</span> <span style=color:#66d9ef>int</span> MAX_HANDLED_REQ_COUNT_PER_LOOP <span style=color:#f92672>=</span> 100<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>final</span> <span style=color:#66d9ef>int</span> MAX_HANDLED_REQ_COUNT_PER_LOOP <span style=color:#f92672>=</span> <span style=color:#ae81ff>100</span><span style=color:#f92672>;</span>
 </span></span><span style=display:flex><span>  <span style=color:#66d9ef>private</span> Queue<span style=color:#f92672>&lt;</span>Command<span style=color:#f92672>&gt;</span> queue <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> LinkedList<span style=color:#f92672>&lt;&gt;();</span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>mainloop</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
@@ -101,7 +101,7 @@
 </span></span><span style=display:flex><span>        queue<span style=color:#f92672>.</span><span style=color:#a6e22e>add</span><span style=color:#f92672>(</span>command<span style=color:#f92672>);</span>
 </span></span><span style=display:flex><span>      <span style=color:#f92672>}</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>      <span style=color:#66d9ef>int</span> handledCount <span style=color:#f92672>=</span> 0<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>int</span> handledCount <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span><span style=color:#f92672>;</span>
 </span></span><span style=display:flex><span>      <span style=color:#66d9ef>while</span> <span style=color:#f92672>(</span>handledCount <span style=color:#f92672>&lt;</span> MAX_HANDLED_REQ_COUNT_PER_LOOP<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
 </span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>queue<span style=color:#f92672>.</span><span style=color:#a6e22e>isEmpty</span><span style=color:#f92672>())</span> <span style=color:#f92672>{</span>
 </span></span><span style=display:flex><span>          <span style=color:#66d9ef>break</span><span style=color:#f92672>;</span>

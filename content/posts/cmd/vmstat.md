@@ -10,6 +10,7 @@ tags:
 - in（interrupt）则是每秒中断的次数。
 - r（Running or Runnable）是就绪队列的长度，也就是正在运行和等待 CPU 的进程数。
 - b（Blocked）则是处于不可中断睡眠状态的进程数。
+- bi 和 bo 则分别表示块设备读取和写入的大小，单位为块 / 秒。因为 Linux 中块的大小是 1KB，所以这个单位也就等价于 KB/s。
 
 ```bash
 # 每隔5秒输出1组数据

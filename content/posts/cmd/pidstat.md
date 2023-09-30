@@ -94,3 +94,16 @@ $ pidstat -d -p 4344 1 3
 - kB_rd 表示每秒读的 KB 数
 - kB_wr 表示每秒写的 KB 数
 - iodelay 表示 I/O 的延迟（单位是时钟周期）
+
+```bash
+# -d 查看进程I/O情况
+$ pidstat -d 1 
+13:39:51      UID       PID   kB_rd/s   kB_wr/s kB_ccwr/s iodelay  Command 
+13:39:52      102       916      0.00      4.00      0.00       0  rsyslogd
+```
+
+- 用户 ID（UID）和进程 ID（PID） 。
+- 每秒读取的数据大小（kB_rd/s） ，单位是 KB。
+- 每秒发出的写请求数据大小（kB_wr/s） ，单位是 KB。
+- 每秒取消的写请求数据大小（kB_ccwr/s） ，单位是 KB。
+- 块 I/O 延迟（iodelay），包括等待同步块 I/O 和换入块 I/O 结束的时间，单位是时钟周期。
