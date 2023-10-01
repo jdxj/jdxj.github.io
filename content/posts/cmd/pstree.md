@@ -18,3 +18,14 @@ systemd,1
               └─app,4009
                   └─(app,3084)
 ```
+
+```bash
+# -t表示显示线程，-a表示显示命令行参数
+$ pstree -t -a -p 27458
+mysqld,27458 --log_bin=on --sync_binlog=1
+...
+  ├─{mysqld},27922
+  ├─{mysqld},27923
+  └─{mysqld},28014
+```
+
